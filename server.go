@@ -11,7 +11,7 @@ func main() {
     m.Use(martini.Static("songs"))
     m.Use(render.Renderer(render.Options{
         Layout:     "layout",
-        Delims: render.Delims{"[[", "]]"},
+        Delims: render.Delims{"{[{", "}]}"},
         Extensions: []string{".html"}}))
 
     songs := Songs()
