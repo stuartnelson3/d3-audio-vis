@@ -54,7 +54,7 @@ $(function() {
   // get the context from the canvas to draw on
 
   var canvas = document.createElement("canvas")
-  document.querySelector("body").appendChild(canvas);
+  document.querySelector(".container").appendChild(canvas);
   ctx = document.querySelector("canvas").getContext("2d");
 
   // create a gradient for the fill. Note the strange
