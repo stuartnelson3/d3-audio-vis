@@ -1,0 +1,28 @@
+<h1>Stuart Nelson</h1>
+
+<div>
+  <img class="profile-picture" src="/img/profile_bw.jpg" />
+  <div class="about lh1">
+    <div>
+      I work at <a href="http://www.neo.com"><strong>Neo</strong></a>
+    </div>
+    <div>
+      You can find me on <a href="http://www.twitter.com/stuartnelson3"><strong>Twitter</strong></a> and <a href="http://www.github.com/stuartnelson3"><strong>Github</strong></a>
+    </div>
+  </div>
+</div>
+
+<h2>Songs</h2>
+<div>
+  {{range .}}
+
+  <div>
+    <div class="ilb lh1 datestamp">
+      <a href="/{{.}}">
+        {{.}}
+      </a>
+    </div>
+  </div>
+
+  {{end}}
+</div>
