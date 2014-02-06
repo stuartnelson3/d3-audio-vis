@@ -35,7 +35,7 @@ function drawSpectrum(array) {
   };
   circles.transition().duration(0)
   .style('fill', function(d,i) { return color(array[i]); })
-  .attr('r', wiggle(5))
+  .attr('r', wiggle(0))
   // .attr('cy', wiggle(60))
 }
 

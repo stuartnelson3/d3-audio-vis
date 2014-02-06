@@ -14,13 +14,13 @@ func main() {
         Delims: render.Delims{"{[{", "}]}"},
         Extensions: []string{".html"}}))
 
-    songs := Songs()
-
     m.Get("/", func(r render.Render) {
+        songs := Songs()
         r.HTML(200, "index", songs)
     })
 
     m.Get("/:song", func(params martini.Params, r render.Render) {
+        songs := Songs()
         for _, song := range songs {
             if song == params["song"] {
                 r.HTML(200, "show", song)
