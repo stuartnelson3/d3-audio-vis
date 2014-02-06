@@ -30,8 +30,16 @@ function onError(e) {
 
 function drawSpectrum(array) {
   // do the d3 here
-  var wiggle = function(start) {
-    return function(d,i) { return start + (array[i]*0.08)|0; };
+  var wiggle = function(initial) {
+    return function(d,i) {
+      var amnt = (array[i]*0.2)|0
+      amnt = Math.pow(amnt, 2) // whooa!
+      if (amnt > 15) {
+        return initial + amnt;
+      } else {
+        return 1;
+      }
+    };
   };
   circles.transition().duration(0)
   .style('fill', function(d,i) { return color(array[i]); })
@@ -57,8 +65,8 @@ $(function() {
   .style('fill', 'steelblue')
   .transition()
   .duration(750)
-  .attr('cy', 60)
-  .attr('cx', function(d,i) { return i*30 + 20; })
+  .attr('cy', 260)
+  .attr('cx', function(d,i) { return i*50 + 40; })
   .attr('r', function(d,i) { return 5; })
   .style('fill', function(d,i) { return color(i); })
 
