@@ -90,3 +90,8 @@ body {
 .pointer {
   cursor: pointer;
 }
+
+.unit {
+  float: left;
+  width: 50%;
+}

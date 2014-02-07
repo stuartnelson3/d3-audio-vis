@@ -5,17 +5,15 @@ var sourceNode;
 var analyser;
 var javascriptNode;
 function loadSound(url) {
-  var request = new XMLHttpRequest();
-  request.open('GET', url, true);
-  request.responseType = 'arraybuffer';
+  // need to remove or stop old element before playing new one
+  audio = new Audio();
+  audio.src = url;
+  source = context.createMediaElementSource(audio);
+  source.connect(analyser);
+  analyser.connect(context.destination);
 
-  request.onload = function() {
-
-    context.decodeAudioData(request.response, function(buffer) {
-      playSound(buffer);
-    }, onError);
-  }
-  request.send();
+  // audio.controls = true;
+  audio.autoplay = true;
 }
 
 
@@ -74,27 +72,21 @@ $(function() {
   setupAudioNodes();
 
   function setupAudioNodes() {
-
-    javascriptNode = context.createScriptProcessor(2048, 1, 1);
-    javascriptNode.connect(context.destination);
-
-
+    context = new webkitAudioContext();
     analyser = context.createAnalyser();
     analyser.smoothingTimeConstant = 0.3;
     analyser.fftSize = 32;
 
-    sourceNode = context.createBufferSource();
-    sourceNode.connect(analyser);
+    javascriptNode = context.createScriptProcessor(2048, 1, 1);
+    javascriptNode.connect(context.destination);
     analyser.connect(javascriptNode);
+    javascriptNode.onaudioprocess = function() {
 
-    sourceNode.connect(context.destination);
+      var array =  new Uint8Array(analyser.frequencyBinCount);
+      analyser.getByteFrequencyData(array);
+      drawSpectrum(array);
+    };
+
   }
-
-  javascriptNode.onaudioprocess = function() {
-
-    var array =  new Uint8Array(analyser.frequencyBinCount);
-    analyser.getByteFrequencyData(array);
-    drawSpectrum(array);
-  };
 
 });

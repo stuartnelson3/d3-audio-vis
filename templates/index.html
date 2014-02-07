@@ -12,17 +12,29 @@
   </div>
 </div>
 
-<h2>Songs</h2>
-<div>
-  {[{range .}]}
-
+<div class='unit'>
+  <h2>Songs</h2>
   <div>
-    <div class="ilb lh1 datestamp">
-      <span class="pointer" ng-click="loadSound('{[{.}]}')" >
-        {[{.}]}
-      </span>
-    </div>
-  </div>
+    {[{range .}]}
 
-  {[{end}]}
+    <div>
+      <div class="ilb lh1 datestamp">
+        <span class="pointer" ng-click="loadSound('{[{.}]}')" >
+          {[{.}]}
+        </span>
+      </div>
+    </div>
+
+    {[{end}]}
+  </div>
+</div>
+
+<div class='unit'>
+  <h2>Enter an mp3 URL</h2>
+  <div class="ilb lh1 datestamp">
+    <input ng-model="songUrl" placeholder="enter url" type="text">
+    <button type="button" ng-click="loadSound(songUrl)">Play</button>
+  </div>
+</div>
+
 </div>
