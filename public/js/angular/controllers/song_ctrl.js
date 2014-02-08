@@ -6,25 +6,6 @@ angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", function
   var analyser;
   var javascriptNode;
 
-  function drawSpectrum(array) {
-    // do the d3 here
-    var wiggle = function(initial) {
-      return function(d,i) {
-        var amnt = (array[i]*0.2)|0
-        amnt = Math.pow(amnt, 2) // whooa!
-        if (amnt > 15) {
-          return initial + amnt;
-        } else {
-          return 1;
-        }
-      };
-    };
-    circles.transition().duration(0)
-    .style('fill', function(d,i) { return color(array[i]); })
-    .attr('r', wiggle(0))
-    // .attr('cy', wiggle(60))
-  }
-
   if (! window.AudioContext) {
     if (! window.webkitAudioContext) {
       alert('no audiocontext found');
@@ -33,22 +14,8 @@ angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", function
   }
   context = new AudioContext();
 
-  svg = d3.select('.container').append('svg').attr('height', 420).attr('width', 960);
-
   $scope.data = new Array();
-  for (var i = 0; i < 32; $scope.data.push(i++))
-
-  color = d3.scale.category10();
-  circles = svg.selectAll('circle').data($scope.data);
-  circles.enter().append('circle')
-  .style('fill', 'steelblue')
-  .transition()
-  .duration(750)
-  .attr('cy', 260)
-  .attr('cx', function(d,i) { return i*50 + 40; })
-  .attr('r', function(d,i) { return 5; })
-  .style('fill', function(d,i) { return color(i); })
-
+  for (var i = 0; i < 32; $scope.data.push(i++)) {}
 
   setupAudioNodes();
 
@@ -61,13 +28,6 @@ angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", function
     javascriptNode = context.createScriptProcessor(2048, 1, 1);
     javascriptNode.connect(context.destination);
     analyser.connect(javascriptNode);
-    javascriptNode.onaudioprocess = function() {
-
-      var array =  new Uint8Array(analyser.frequencyBinCount);
-      analyser.getByteFrequencyData(array);
-      drawSpectrum(array);
-    };
-
   }
 
   $scope.loadSound = function(url) {
@@ -80,6 +40,13 @@ angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", function
 
     // audio.controls = true;
     audio.autoplay = true;
+    javascriptNode.onaudioprocess = function() {
+      $scope.$apply(function() {
+        $scope.array = new Uint8Array(analyser.frequencyBinCount);
+        analyser.getByteFrequencyData($scope.array);
+      });
+    };
+
   };
 
 }]);
