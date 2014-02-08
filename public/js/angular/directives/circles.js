@@ -2,12 +2,14 @@ angular.module('SongVis.directives').directive('circles', [function() {
   return {
     scope: {
       data: '=',
+      height: '@',
+      width: '@',
       frequencyData: '='
     },
     restrict: 'E',
     link: function(scope, element, attrs) {
       scope.color = d3.scale.category10();
-      scope.svg = d3.select(element[0]).append('svg').attr('height', 420).attr('width', 960);
+      scope.svg = d3.select(element[0]).append('svg').attr('height', scope.height).attr('width', scope.width);
       scope.circles = scope.svg.selectAll('circle').data(scope.data);
       scope.circles.enter().append('circle')
         .attr('cy', function(d,i) { return (Math.random()*420)+1})
