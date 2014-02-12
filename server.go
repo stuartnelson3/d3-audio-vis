@@ -19,15 +19,6 @@ func main() {
         r.HTML(200, "index", songs)
     })
 
-    m.Get("/:song", func(params martini.Params, r render.Render) {
-        songs := Songs()
-        for _, song := range songs {
-            if song == params["song"] {
-                r.HTML(200, "show", song)
-            }
-        }
-    })
-
     m.Run()
 }
 
