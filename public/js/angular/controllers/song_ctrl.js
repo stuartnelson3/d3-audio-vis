@@ -1,13 +1,8 @@
-angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", function($scope) {
+angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", "AudioPlayer", function($scope, AudioPlayer) {
   // fun to mess with playbackRate
   // sourceNode.playbackRate.value
-  if (! window.AudioContext) {
-    if (! window.webkitAudioContext) {
-      alert('no audiocontext found');
-    }
-    window.AudioContext = window.webkitAudioContext;
-  }
-  $scope.context = new AudioContext();
+  var audioPlayer = new AudioPlayer();
+  $scope.context = audioPlayer.audioContext;
 
   $scope.data = new Array();
   for (var i = 0; i < 32; $scope.data.push(i++)) {}
