@@ -15,7 +15,6 @@ angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", function
   setupAudioNodes();
 
   function setupAudioNodes() {
-    $scope.context = new webkitAudioContext();
     $scope.analyser = $scope.context.createAnalyser();
     $scope.analyser.smoothingTimeConstant = 0.3;
     $scope.analyser.fftSize = 32;
