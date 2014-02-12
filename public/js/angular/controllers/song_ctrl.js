@@ -4,7 +4,7 @@ angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", "AudioPl
   var audioPlayer = new AudioPlayer();
   $scope.context = audioPlayer.audioContext;
 
-  $scope.data = new Array();
+  $scope.data = [];
   for (var i = 0; i < 32; $scope.data.push(i++)) {}
 
   setupAudioNodes();
