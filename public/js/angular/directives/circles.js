@@ -4,6 +4,7 @@ angular.module('SongVis.directives').directive('circles', [function() {
       data: '=',
       height: '@',
       width: '@',
+      update: '&',
       frequencyData: '='
     },
     restrict: 'E',
@@ -23,27 +24,8 @@ angular.module('SongVis.directives').directive('circles', [function() {
         .attr('r', function(d,i) { return 5; })
         .style('fill', function(d,i) { return scope.color(i); })
 
-      scope.$watch('frequencyData', function(array) {
-        // do the d3 here
-        if (!array) return;
-        var wiggle = function(initial) {
-          return function(d,i) {
-            var amnt = (array[i]*0.2)|0
-            amnt = Math.pow(amnt, 2) // whooa!
-            if (amnt > 15) {
-              return initial + amnt;
-            } else {
-              return 1;
-            }
-          };
-        };
-        scope.circles.transition().duration(0)
-          .attr('cx', function(d,i) { return i*30 + 20; })
-          .attr('r', function(d,i) { return 5; })
-          .style('fill', function(d,i) { return scope.color(array[i]); })
-          .attr('r', wiggle(0))
-          // .attr('cy', wiggle(60))
-      });
+      var updateFn = scope.update();
+      scope.$watch('frequencyData', updateFn(scope.circles));
     }
   };
 }]);
