@@ -20,13 +20,12 @@ angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", "AudioPl
           if (amnt > 15) {
             return initial + amnt;
           } else {
-            return 1;
+            return 5;
           }
         };
       };
       d3Selection.transition().duration(0)
       .attr('cx', function(d,i) { return i*30 + 20; })
-      .attr('r', function(d,i) { return 5; })
       .attr('r', wiggle(0))
       // .attr('cy', wiggle(60))
     };
