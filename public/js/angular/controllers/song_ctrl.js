@@ -32,6 +32,12 @@ angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", "AudioPl
     };
   }
 
+  $scope.selectedSongs = $scope.songs;
+
+  $scope.queue = function(song) {
+    $scope.selectedSongs.push(song);
+  };
+
   $scope.loadSound = function(url) {
     // need to remove or stop old element before playing new one
     $scope.audio = new Audio(url);

@@ -16,7 +16,9 @@ func main() {
 
     m.Get("/", func(r render.Render) {
         songs := Songs()
-        r.HTML(200, "index", songs)
+        scripts := Scripts()
+        indexObj := index{Songs:songs, Scripts:scripts}
+        r.HTML(200, "index", indexObj)
     })
 
     m.Run()
@@ -28,4 +30,17 @@ func Songs() []string {
         songs[i] = songs[i][6:]
     }
     return songs
+}
+
+func Scripts() []string {
+    scripts, _ := filepath.Glob("public/js/**/**/*.js")
+    for i := 0; i < len(scripts); i++ {
+        scripts[i] = scripts[i][7:]
+    }
+    return scripts
+}
+
+type index struct {
+    Songs []string
+    Scripts []string
 }
