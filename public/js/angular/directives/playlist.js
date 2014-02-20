@@ -6,6 +6,9 @@ angular.module('SongVis.directives').directive('playlist', [function() {
     restrict: 'E',
     templateUrl: 'templates/playlist.html',
     link: function(scope, element, attrs) {
+      scope.remove = function(index) {
+        scope.songs.splice(index, 1);
+      };
     }
   };
 }]);
