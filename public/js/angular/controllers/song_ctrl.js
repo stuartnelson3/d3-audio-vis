@@ -6,6 +6,7 @@ angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", "AudioPl
   $scope.context = audioPlayer.audioContext;
   $scope.analyser = audioPlayer.analyser;
   $scope.javascriptNode = audioPlayer.javascriptNode;
+  $scope.songs = songs;
 
   $scope.data = [];
   for (var i = 0; i < 32; $scope.data.push(i++)) {}

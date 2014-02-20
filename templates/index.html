@@ -1,18 +1,19 @@
+<script>
+  var songs = {[{.}]};
+</script>
 <div class="container" ng-controller="SongCtrl">
   <div class='unit'>
     <h2>Songs</h2>
     <div>
-      {[{range .}]}
 
       <div>
         <div class="ilb lh1 datestamp">
-          <span class="pointer" ng-click="loadSound('{[{.}]}')" >
-            {[{.}]}
+          <span ng-repeat="song in songs" class="pointer" ng-click="loadSound(song)" >
+            {{song}}
           </span>
         </div>
       </div>
 
-      {[{end}]}
     </div>
   </div>
 

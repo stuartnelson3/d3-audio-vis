@@ -22,7 +22,7 @@ func main() {
     m.Run()
 }
 
-func  Songs() []string {
+func Songs() []string {
     songs, _ := filepath.Glob("songs/*.mp3")
     for i := 0; i < len(songs); i++ {
         songs[i] = songs[i][6:]
