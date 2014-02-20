@@ -32,7 +32,7 @@ angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", "AudioPl
     };
   }
 
-  $scope.selectedSongs = $scope.songs;
+  $scope.selectedSongs = [];
 
   $scope.queue = function(song) {
     $scope.selectedSongs.push(song);
