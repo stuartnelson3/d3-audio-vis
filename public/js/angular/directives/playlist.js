@@ -24,17 +24,24 @@ angular.module('SongVis.directives').directive('playlist', ["AudioPlayer", funct
         scope.audio.pause();
       };
 
+      scope.pause = function() {
+        scope.audio.pause();
+      }
+
       scope.playing = function() {
-        !scope.audio.paused
+        return !scope.audio.paused
       };
 
       scope.play = function(url) {
-        // need to remove or stop old element before playing new one
+        if (url === scope.audio.src.replace(location.origin+"/","")) {
+          scope.audio.play();
+          return;
+        }
         scope.audio.src = url;
 
         scope.audio.autoplay = true;
         scope.javascriptNode.onaudioprocess = function() {
-          $scope.$apply(function() {
+          scope.$apply(function() {
             scope.array = new Uint8Array(scope.analyser.frequencyBinCount);
             scope.analyser.getByteFrequencyData(scope.array);
           });
