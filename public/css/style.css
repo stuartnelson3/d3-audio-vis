@@ -36,6 +36,10 @@ a,
   color: #EB8753;
 }
 
+.playing {
+  background-color: #EB8753;
+}
+
 p {
   line-height: 1.8;
 }
