@@ -28,12 +28,17 @@ angular.module('SongVis.directives').directive('playlist', ["AudioPlayer", funct
         scope.audio.pause();
       }
 
-      scope.playing = function() {
-        return !scope.audio.paused
+      scope.playing = function(index) {
+        return currentSongName() === scope.songs[index] &&
+          !scope.audio.paused
+      };
+
+      var currentSongName = function() {
+        return scope.audio.src.replace(location.origin+"/","")
       };
 
       scope.play = function(url) {
-        if (url === scope.audio.src.replace(location.origin+"/","")) {
+        if (url === currentSongName()) {
           scope.audio.play();
           return;
         }
