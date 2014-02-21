@@ -1,4 +1,4 @@
-angular.module('SongVis.directives').directive('playlist', ["AudioPlayer", function(AudioPlayer) {
+angular.module('SongVis.directives').directive('playlist', ["$document", "AudioPlayer", function($document, AudioPlayer) {
   return {
     scope: {
       songs: '=',
@@ -7,7 +7,17 @@ angular.module('SongVis.directives').directive('playlist', ["AudioPlayer", funct
     restrict: 'E',
     templateUrl: 'templates/playlist.html',
     link: function(scope, element, attrs) {
+      $document.keydown(function(ev) {
+        if (ev.keyCode === 32) { // Space keycode
+          scope.audio.paused ? scope.audio.play() : scope.audio.pause();
+        }
+      });
       scope.audio = new Audio();
+
+      scope.audio.onended = function() {
+        scope.current++;
+        scope.audio.src = scope.songs[scope.current];
+      };
 
       var audioPlayer = new AudioPlayer();
       audioPlayer.setupAudioNodes();
@@ -37,12 +47,14 @@ angular.module('SongVis.directives').directive('playlist', ["AudioPlayer", funct
         return scope.audio.src.replace(location.origin+"/","")
       };
 
-      scope.play = function(url) {
+      scope.play = function(index) {
+        var url = scope.songs[index];
         if (url === currentSongName()) {
           scope.audio.play();
           return;
         }
         scope.audio.src = url;
+        scope.current = index;
 
         scope.audio.autoplay = true;
         scope.javascriptNode.onaudioprocess = function() {

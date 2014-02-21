@@ -10,15 +10,16 @@ angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", function
       var wiggle = function(initial) {
         return function(d,i) {
           var amnt = (array[i]*0.2)|0
-          amnt = Math.pow(amnt, 2) // whooa!
-          if (amnt > 15) {
-            return initial + amnt;
-          } else {
-            return 5;
-          }
+          return amnt;
+          // amnt = Math.pow(amnt, 2) // whooa!
+          // if (amnt > 15) {
+          //   return initial + amnt;
+          // } else {
+          //   return 5;
+          // }
         };
       };
-      d3Selection.transition().duration(0)
+      d3Selection.transition().duration(50)
       .attr('cx', function(d,i) { return i*30 + 20; })
       .attr('r', wiggle(0))
       // .attr('cy', wiggle(60))
