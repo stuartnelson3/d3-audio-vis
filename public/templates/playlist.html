@@ -1,8 +1,8 @@
 <ul class="playlist">
   <li ng-repeat="song in songs track by $index">
     {{song}}
-    <button type="button" ng-click="play($index)" ng-hide="playing($index)">Play</button>
-    <button type="button" ng-click="pause()" ng-show="playing($index)">Pause</button>
-    <button type="button" ng-click="remove($index)">Remove</button>
+    <button type="button" ng-click="play($index)" ng-hide="playing($index)"><i class="icon-play"></i></button>
+    <button type="button" ng-click="pause()" ng-show="playing($index)"><i class="icon-pause"></i></button>
+    <button type="button" ng-click="remove($index)"><i class="icon-stop"></i></button>
   </li>
 </ul>
