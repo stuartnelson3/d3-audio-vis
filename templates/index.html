@@ -1,22 +1,24 @@
 <div class="container" ng-controller="SongCtrl">
-  <div class='unit'>
-    <h2>Songs</h2>
-    <div class="ilb lh1 datestamp">
-      <span ng-repeat="song in songs" class="pointer" ng-click="queue(song)" >
-        {{song}}
-      </span>
+  <div class="main_window ilb clearfix float-left">
+    <div class='unit float-left'>
+      <h2>Songs</h2>
+      <ul class="">
+        <li ng-repeat="song in songs" class="pointer" ng-click="queue(song)" >
+          {{song}}
+        </li>
+      </ul>
+    </div>
+
+    <div class='unit float-left'>
+      <h2>Enter an mp3 URL</h2>
+      <div class="ilb lh1 datestamp">
+        <input ng-model="songUrl" placeholder="enter url" type="text">
+        <button type="button" ng-click="queue(songUrl)">Play</button>
+      </div>
     </div>
   </div>
 
-  <div class='unit'>
-    <h2>Enter an mp3 URL</h2>
-    <div class="ilb lh1 datestamp">
-      <input ng-model="songUrl" placeholder="enter url" type="text">
-      <button type="button" ng-click="queue(songUrl)">Play</button>
-    </div>
-  </div>
-
-  <playlist array="array" songs="selectedSongs"></playlist>
+  <playlist array="array" songs="selectedSongs" class="float-left"></playlist>
 
   <circles width="960" height="420" data="data" frequency-data="array" update="update"></circles>
 </div>

@@ -46,15 +46,24 @@ body {
 }
 
 playlist {
-  float: right;
   width: 19%;
   border-left: 1px solid #CCCCCC;
   margin: 0;
   padding: 0;
 }
 
-.playlist {
+ul {
   list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.float-left {
+  float: left;
+}
+
+.playlist li {
+  padding: 10px;
 }
 
 .container {
@@ -62,8 +71,11 @@ playlist {
   width: 100%;
 }
 
-.date {
-  font-size: 80%;
+.main_window {
+  border: 1px solid #CCCCCC;
+  overflow: auto;
+  padding: 10px;
+  width: 75%;
 }
 
 .ilb {
@@ -78,31 +90,14 @@ playlist {
   line-height: 1.2;
 }
 
-.datestamp {
-  margin-right: 1%;
-  width: 120px;
-}
-
-.profile-picture {
-  border-radius: 4px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-  float: left;
-  margin-right: 45px;
-  width: 200px;
-}
-
-.about {
-  display: inline-block;
-  margin: 45px 0;
-  max-width: 215px;
-  font-size: 130%;
-}
-
 .pointer {
   cursor: pointer;
 }
 
 .unit {
-  float: left;
   width: 40%;
+}
+
+.clearfix {
+  clear: both;
 }
