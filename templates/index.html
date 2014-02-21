@@ -1,6 +1,11 @@
 <div class="container" ng-controller="SongCtrl">
   <div class="main_window ilb clearfix float-left">
-    <div class='unit float-left'>
+    <ul class="tabs">
+      <li ng-click="toggleTab('search')">Search</li>
+      <li ng-click="toggleTab('url')">Web MP3</li>
+      <li ng-click="toggleTab('vis')">Visualizer</li>
+    </ul>
+    <div class='unit float-left' ng-show="showTab === 'search'">
       <h2>Songs</h2>
       <ul class="">
         <li ng-repeat="song in songs" class="pointer" ng-click="queue(song)" >
@@ -9,16 +14,19 @@
       </ul>
     </div>
 
-    <div class='unit float-left'>
+    <div class='unit float-left' ng-show="showTab === 'url'">
       <h2>Enter an mp3 URL</h2>
       <div class="ilb lh1 datestamp">
         <input ng-model="songUrl" placeholder="enter url" type="text">
         <button type="button" ng-click="queue(songUrl)">Play</button>
       </div>
     </div>
+
+    <div class='unit float-left' ng-show="showTab === 'vis'">
+      <circles width="960" height="420" data="data" frequency-data="array" update="update"></circles>
+    </div>
   </div>
 
   <playlist array="array" songs="selectedSongs" class="float-left"></playlist>
 
-  <circles width="960" height="420" data="data" frequency-data="array" update="update"></circles>
 </div>
