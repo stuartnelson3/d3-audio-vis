@@ -4,7 +4,7 @@ angular.module("SongVis.resources", []);
 angular.module("SongVis.services", []);
 
 angular.module("SongVis",
-  ["SongVis.controllers", "SongVis.directives", "SongVis.resources", "SongVis.services"])
+  ["ui.sortable", "SongVis.controllers", "SongVis.directives", "SongVis.resources", "SongVis.services"])
 .run(['$rootScope', function($rootScope) {
  // adds some basic utilities to the $rootScope for debugging purposes
  $rootScope.log = function(thing) {

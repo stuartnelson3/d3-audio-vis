@@ -12,6 +12,11 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "AudioP
           scope.audio.paused ? scope.audio.play() : scope.audio.pause();
         }
       });
+
+      scope.sortableOptions = {
+        handle: ".song-handle",
+      };
+
       scope.audio = new Audio();
 
       scope.audio.onended = function() {

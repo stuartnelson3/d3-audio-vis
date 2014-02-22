@@ -86,6 +86,10 @@ ul {
   position: absolute;
 }
 
+.song-handle {
+  cursor: move;
+}
+
 .container {
   margin: 40px auto 10px;
   width: 100%;
