@@ -1,3 +1,7 @@
+body, html {
+  height: 94%;
+}
+
 body {
   font-family: 'Varela Round', sans-serif;
   margin: 0;
@@ -50,8 +54,9 @@ body {
 }
 
 playlist {
+  height: 100%;
   width: 19%;
-  border-left: 1px solid #CCCCCC;
+  border: 1px solid #CCCCCC;
   margin: 0;
   padding: 0;
   position: relative;
@@ -79,6 +84,7 @@ ul {
 }
 
 .playlist li {
+  border-bottom: 1px solid #CCCCCC;
   padding: 3px 10px;
 }
 
@@ -92,6 +98,7 @@ ul {
 
 .container {
   margin: 40px auto 10px;
+  height: 100%;
   width: 100%;
 }
 
@@ -99,6 +106,7 @@ ul {
   border: 1px solid #CCCCCC;
   overflow: auto;
   padding: 10px;
+  height: 100%;
   width: 75%;
 }
 
