@@ -35,4 +35,8 @@ angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", function
     $scope.showTab = tab;
   };
 
+  $scope.activeTab = function(tab) {
+    return $scope.showTab === tab;
+  };
+
 }]);
