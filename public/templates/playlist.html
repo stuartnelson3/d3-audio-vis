@@ -1,8 +1,10 @@
 <ul class="playlist">
-  <li ng-repeat="song in songs track by $index" ng-class="{playing: playing($index)}">
+  <li ng-repeat="song in songs track by $index" ng-class="{playing: playing($index)}" class="ellipsis queue-song">
     {{song}}
-    <i ng-click="play($index)" ng-hide="playing($index)" class="icon-play pointer"></i>
-    <i ng-click="pause()" ng-show="playing($index)" class="icon-pause pointer"></i>
-    <i ng-click="remove($index)" class="icon-remove pointer"></i>
+    <div class="ilb playlist-controls">
+      <i ng-click="play($index)" ng-hide="playing($index)" class="icon-play pointer"></i>
+      <i ng-click="pause()" ng-show="playing($index)" class="icon-pause pointer"></i>
+      <i ng-click="remove($index)" class="icon-remove pointer"></i>
+    </div>
   </li>
 </ul>

@@ -54,6 +54,8 @@ playlist {
   border-left: 1px solid #CCCCCC;
   margin: 0;
   padding: 0;
+  position: relative;
+  right: 1px;
 }
 
 ul {
@@ -76,12 +78,12 @@ ul {
   border-bottom: 1px solid #FFFFFF;
 }
 
-.float-left {
-  float: left;
+.playlist li {
+  padding: 3px 10px;
 }
 
-.playlist li {
-  padding: 10px;
+.playlist-controls {
+  position: absolute;
 }
 
 .container {
@@ -94,6 +96,10 @@ ul {
   overflow: auto;
   padding: 10px;
   width: 75%;
+}
+
+.float-left {
+  float: left;
 }
 
 .ilb {
@@ -114,6 +120,12 @@ ul {
 
 .unit {
   width: 40%;
+}
+
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .clearfix {
