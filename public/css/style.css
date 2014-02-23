@@ -121,7 +121,7 @@ ul {
 }
 
 .container {
-  margin: 40px auto 10px;
+  margin: 20px auto;
   height: 100%;
   width: 100%;
 }
@@ -134,8 +134,16 @@ ul {
   width: 75%;
 }
 
+.main_window h2 {
+  margin-top: 0;
+}
+
 .float-left {
   float: left;
+}
+
+.float-right {
+  float: right;
 }
 
 .ilb {
@@ -158,6 +166,12 @@ ul {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.input {
+  border: 1px solid #CCCCCC;
+  font-size: 0.83em;
+  padding: 5px;
 }
 
 .clearfix {

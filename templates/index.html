@@ -6,7 +6,10 @@
   </ul>
   <div class="main_window ilb clearfix float-left">
     <div ng-show="activeTab('search')">
-      <h2>Songs</h2>
+      <h2 class="ilb">Songs</h2>
+      <span class="float-right">
+        <input class="input" ng-model="searchText" placeholder="Search" type="text">
+      </span>
       <table class="search">
         <tr>
           <th>Name</th>
@@ -14,7 +17,7 @@
           <th>Album</th>
           <th>Genre</th>
         </tr>
-        <tr ng-repeat="song in songs" class="pointer" ng-class="{odd: $odd}" ng-click="queue(song)">
+        <tr ng-repeat="song in songs | filter:searchText" class="pointer" ng-class="{odd: $odd}" ng-click="queue(song)">
           <td>{{song.Metadata.Name}}</td>
           <td>{{song.Metadata.Album}}</td>
           <td>{{song.Metadata.Artist}}</td>
@@ -26,7 +29,7 @@
     <div class='unit float-left' ng-show="activeTab('url')">
       <h2>Enter DMS URL</h2>
       <div class="ilb lh1 datestamp">
-        <input ng-model="serverUrl" placeholder="enter url" type="text">
+        <input class="input" ng-model="serverUrl" placeholder="enter url" type="text">
         <i ng-click="addServer(serverUrl)" class="icon-plus pointer"></i>
       </div>
     </div>
@@ -36,6 +39,6 @@
     </div>
   </div>
 
-  <playlist array="array" songs="selectedSongs" class="float-left"></playlist>
+  <playlist array="array" songs="selectedSongs" class="float-left" ng-show="selectedSongs.length"></playlist>
 
 </div>
