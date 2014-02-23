@@ -7,6 +7,7 @@ body {
   margin: 0;
   padding: 0;
   color: #606060;
+  width: 100%;
 }
 
 h1, h2, blockquote p {
@@ -55,7 +56,7 @@ body {
 
 playlist {
   height: 100%;
-  width: 19%;
+  width: 18%;
   border: 1px solid #CCCCCC;
   margin: 0;
   padding: 0;
@@ -131,7 +132,7 @@ ul {
   overflow: auto;
   padding: 10px;
   height: 100%;
-  width: 75%;
+  width: 98%;
 }
 
 .main_window h2 {

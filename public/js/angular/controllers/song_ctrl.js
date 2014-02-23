@@ -38,6 +38,14 @@ angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", "$http",
     return $scope.showTab === tab;
   };
 
+  $scope.variableWidth = function() {
+    var css = {}
+    if ($scope.selectedSongs.length) {
+      css = {width: "80%"};
+    }
+    return css;
+  };
+
   $scope.addServer = function(url) {
     // add check for http://
     url = "http://" + url;
