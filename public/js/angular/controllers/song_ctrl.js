@@ -56,7 +56,7 @@ angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", "$http",
       songs.forEach(function(s) {
         s.Url = url+s.Path;
         if (s.Metadata.Track) {
-          s.Metadata.Track = s.Metadata.Track.split("/")[0];
+          s.Metadata.Track = parseInt(s.Metadata.Track.split("/")[0], 10);
         }
       });
       $scope.songs.push.apply($scope.songs, songs);
