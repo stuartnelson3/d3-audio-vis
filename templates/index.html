@@ -15,10 +15,10 @@
     </div>
 
     <div class='unit float-left' ng-show="activeTab('url')">
-      <h2>Enter an mp3 URL</h2>
+      <h2>Enter DMS URL</h2>
       <div class="ilb lh1 datestamp">
-        <input ng-model="songUrl" placeholder="enter url" type="text">
-        <button type="button" ng-click="queue(songUrl)">Play</button>
+        <input ng-model="serverUrl" placeholder="enter url" type="text">
+        <i ng-click="addServer(serverUrl)" class="icon-plus pointer"></i>
       </div>
     </div>
 

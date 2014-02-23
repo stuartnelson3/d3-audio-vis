@@ -1,4 +1,4 @@
-angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", function($scope) {
+angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", "$http", function($scope, $http) {
   $scope.songs = songs;
   $scope.selectedSongs = [];
   $scope.showTab = 'search';
@@ -23,7 +23,6 @@ angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", function
       d3Selection.transition().duration(50)
       .attr('cx', function(d,i) { return i*30 + 20; })
       .attr('r', wiggle(0))
-      // .attr('cy', wiggle(60))
     };
   }
 
@@ -37,6 +36,19 @@ angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", function
 
   $scope.activeTab = function(tab) {
     return $scope.showTab === tab;
+  };
+
+  $scope.addServer = function(url) {
+    url = "http://" + url;
+    $http.get(url).then(function(data) {
+      var songs = data.data.Songs;
+      songs = songs.map(function(s) {
+        return url+"/"+s;
+      });
+      $scope.songs.push.apply($scope.songs, songs);
+    }, function(failure) {
+      console.log("An error occurred, bummer.");
+    });
   };
 
 }]);
