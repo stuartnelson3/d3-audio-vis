@@ -48,11 +48,11 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "AudioP
           !scope.audio.paused
       };
 
-      songUrl = function(index) {
+      var songUrl = function(index) {
         return scope.songs[index].Url;
       };
 
-      currentSongUrl = function() {
+      var currentSongUrl = function() {
         return scope.audio.src.replace(location.origin, "")
       };
 
