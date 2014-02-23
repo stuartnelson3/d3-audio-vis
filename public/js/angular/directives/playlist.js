@@ -19,11 +19,6 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "AudioP
 
       scope.audio = new Audio();
 
-      scope.audio.onended = function() {
-        scope.current++;
-        scope.audio.src = scope.songs[scope.current];
-      };
-
       var audioPlayer = new AudioPlayer();
       audioPlayer.setupAudioNodes();
       scope.context = audioPlayer.audioContext;
@@ -33,6 +28,12 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "AudioP
       var source = scope.context.createMediaElementSource(scope.audio);
       source.connect(scope.analyser);
       scope.analyser.connect(scope.context.destination);
+
+      scope.audio.onended = function() {
+        scope.current++;
+        setActiveSong(scope.current);
+        scope.audio.src = scope.activeSong.Url;
+      };
 
       scope.remove = function(index) {
         scope.songs.splice(index, 1);
@@ -56,13 +57,17 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "AudioP
         return scope.audio.src.replace(location.origin, "")
       };
 
+      var setActiveSong = function(index) {
+        scope.activeSong = scope.songs[index];
+      };
+
       scope.play = function(index) {
         var url = songUrl(index);
         if (scope.activeSong === scope.songs[index]) {
           scope.audio.play();
           return;
         }
-        scope.activeSong = scope.songs[index];
+        setActiveSong(index);
         scope.audio.src = url;
         scope.current = index;
 
