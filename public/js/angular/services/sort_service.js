@@ -6,7 +6,7 @@ angular.module("SongVis.services").factory('SortService', function() {
   };
 
   sortService.prototype.setPredicate = function(attr) {
-    if (this.predicateAttr === attr) {
+    if (JSON.stringify(this.predicateAttr) === JSON.stringify(attr)) {
       this.reverseAttr = !this.reverseAttr;
     }
     this.predicateAttr = attr;

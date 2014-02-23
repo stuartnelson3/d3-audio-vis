@@ -38,7 +38,7 @@ angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", "$http",
     return $scope.showTab === tab;
   };
 
-  $scope.sortService = new SortService('+Artist');
+  $scope.sortService = new SortService(['+Metadata.Artist', 'Metadata.Album', 'Metadata.Track']);
 
   $scope.variableWidth = function() {
     var css = {}
@@ -55,6 +55,9 @@ angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", "$http",
       var songs = data.data.Songs;
       songs.forEach(function(s) {
         s.Url = url+s.Path;
+        if (s.Metadata.Track) {
+          s.Metadata.Track = s.Metadata.Track.split("/")[0];
+        }
       });
       $scope.songs.push.apply($scope.songs, songs);
     }, function(failure) {
