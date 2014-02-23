@@ -130,10 +130,6 @@ ul {
   cursor: pointer;
 }
 
-.unit {
-  width: 40%;
-}
-
 .ellipsis {
   white-space: nowrap;
   overflow: hidden;

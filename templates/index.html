@@ -5,13 +5,15 @@
     <li ng-click="toggleTab('vis')" class="ilb pointer" ng-class="{active: activeTab('vis')}">Visualizer</li>
   </ul>
   <div class="main_window ilb clearfix float-left">
-    <div class='unit float-left' ng-show="activeTab('search')">
+    <div ng-show="activeTab('search')">
       <h2>Songs</h2>
-      <ul class="">
-        <li ng-repeat="song in songs" class="pointer" ng-click="queue(song)" >
-          {{song.Metadata.Name}}
-        </li>
-      </ul>
+      <table class="">
+        <tr ng-repeat="song in songs" class="pointer" ng-click="queue(song)" >
+          <td>{{song.Metadata.Name}}</td>
+          <td>{{song.Metadata.Album}}</td>
+          <td>{{song.Metadata.Artist}}</td>
+        </tr>
+      </table>
     </div>
 
     <div class='unit float-left' ng-show="activeTab('url')">
