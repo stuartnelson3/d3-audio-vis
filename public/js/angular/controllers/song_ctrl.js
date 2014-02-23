@@ -43,7 +43,7 @@ angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", "$http",
   $scope.variableWidth = function() {
     var css = {}
     if ($scope.selectedSongs.length) {
-      css = {width: "80%"};
+      css = {width: "79%"};
     }
     return css;
   };
