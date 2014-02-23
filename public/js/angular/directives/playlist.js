@@ -44,20 +44,25 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "AudioP
       }
 
       scope.playing = function(index) {
-        return currentSongName() === scope.songs[index] &&
+        return scope.activeSong === scope.songs[index] &&
           !scope.audio.paused
       };
 
-      var currentSongName = function() {
-        return scope.audio.src.replace(location.origin+"/","")
+      songUrl = function(index) {
+        return scope.songs[index].Url;
+      };
+
+      currentSongUrl = function() {
+        return scope.audio.src.replace(location.origin, "")
       };
 
       scope.play = function(index) {
-        var url = scope.songs[index];
-        if (url === currentSongName()) {
+        var url = songUrl(index);
+        if (scope.activeSong === scope.songs[index]) {
           scope.audio.play();
           return;
         }
+        scope.activeSong = scope.songs[index];
         scope.audio.src = url;
         scope.current = index;
 

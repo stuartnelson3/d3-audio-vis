@@ -3,7 +3,9 @@ package main
 import (
     "github.com/codegangsta/martini"
     "github.com/codegangsta/martini-contrib/render"
+    "github.com/ascherkus/go-id3/src/id3"
     "path/filepath"
+    "os"
 )
 
 func main() {
@@ -24,10 +26,18 @@ func main() {
     m.Run()
 }
 
-func Songs() []string {
-    songs, _ := filepath.Glob("songs/*.mp3")
-    for i := 0; i < len(songs); i++ {
-        songs[i] = songs[i][6:]
+func Songs() []Song {
+    songs := make([]Song, 0)
+    paths, _ := filepath.Glob("songs/*.mp3")
+    for i := 0; i < len(paths); i++ {
+        mp3File, err := os.Open(paths[i])
+        if err != nil {
+            continue
+        }
+        metadata := *id3.Read(mp3File)
+        song := Song{Metadata: metadata, Url: "/" + paths[i][6:]}
+        songs = append(songs, song)
+
     }
     return songs
 }
@@ -41,6 +51,11 @@ func Scripts() []string {
 }
 
 type index struct {
-    Songs []string
+    Songs []Song
     Scripts []string
+}
+
+type Song struct {
+    Metadata id3.File
+    Url string
 }

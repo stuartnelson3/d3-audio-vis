@@ -1,7 +1,7 @@
 <ul class="playlist" ui-sortable="sortableOptions" ng-model="songs">
   <li ng-repeat="song in songs track by $index" ng-class="{playing: playing($index)}" class="ellipsis queue-song">
     <div class="ilb song-handle">
-      {{song}}
+      {{song.Metadata.Name}}
       <div class="ilb playlist-controls">
         <i ng-click="play($index)" ng-hide="playing($index)" class="icon-play pointer"></i>
         <i ng-click="pause()" ng-show="playing($index)" class="icon-pause pointer"></i>

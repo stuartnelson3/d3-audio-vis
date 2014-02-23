@@ -39,11 +39,12 @@ angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", "$http",
   };
 
   $scope.addServer = function(url) {
+    // add check for http://
     url = "http://" + url;
     $http.get(url).then(function(data) {
       var songs = data.data.Songs;
-      songs = songs.map(function(s) {
-        return url+"/"+s;
+      songs.forEach(function(s) {
+        s.Url = url+s.Path;
       });
       $scope.songs.push.apply($scope.songs, songs);
     }, function(failure) {
