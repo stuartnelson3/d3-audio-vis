@@ -7,11 +7,18 @@
   <div class="main_window ilb clearfix float-left">
     <div ng-show="activeTab('search')">
       <h2>Songs</h2>
-      <table class="">
-        <tr ng-repeat="song in songs" class="pointer" ng-click="queue(song)" >
+      <table class="search">
+        <tr>
+          <th>Name</th>
+          <th>Artist</th>
+          <th>Album</th>
+          <th>Genre</th>
+        </tr>
+        <tr ng-repeat="song in songs" class="pointer" ng-class="{odd: $odd}" ng-click="queue(song)">
           <td>{{song.Metadata.Name}}</td>
           <td>{{song.Metadata.Album}}</td>
           <td>{{song.Metadata.Artist}}</td>
+          <td>{{song.Metadata.Genre}}</td>
         </tr>
       </table>
     </div>

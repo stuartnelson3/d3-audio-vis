@@ -69,6 +69,30 @@ ul {
   margin: 0;
 }
 
+.search {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+}
+
+.search th, .search td {
+  padding: 3px;
+}
+
+.search th {
+  background-color: #EEEEEE;
+  border: 1px solid #CCCCCC;
+  text-align: left;
+}
+
+.search tr {
+  border: 1px solid #CCCCCC;
+}
+
+.search .odd {
+  background-color: #EEEEF6;
+}
+
 .tabs {
   position: relative;
   top: 1px;
