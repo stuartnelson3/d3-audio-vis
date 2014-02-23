@@ -12,12 +12,17 @@
       </span>
       <table class="search">
         <tr>
-          <th>Name</th>
-          <th>Artist</th>
-          <th>Album</th>
-          <th>Genre</th>
+          <th class="pointer" ng-click='sortService.setPredicate("Metadata.Name")'>Name</th>
+          <th class="pointer" ng-click='sortService.setPredicate("Metadata.Album")'>Album</th>
+          <th class="pointer" ng-click='sortService.setPredicate("Metadata.Artist")'>Artist</th>
+          <th class="pointer" ng-click='sortService.setPredicate("Metadata.Genre")'>Genre</th>
         </tr>
-        <tr ng-repeat="song in songs | filter:searchText" class="pointer" ng-class="{odd: $odd}" ng-click="queue(song)">
+        <tr
+          ng-repeat="song in songs | filter:searchText |
+          orderBy:sortService.predicate():sortService.reverse()"
+          class="pointer"
+          ng-class="{odd: $odd}"
+          ng-click="queue(song)">
           <td>{{song.Metadata.Name}}</td>
           <td>{{song.Metadata.Album}}</td>
           <td>{{song.Metadata.Artist}}</td>

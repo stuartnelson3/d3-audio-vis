@@ -1,4 +1,4 @@
-angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", "$http", function($scope, $http) {
+angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", "$http", "SortService", function($scope, $http, SortService) {
   $scope.songs = songs;
   $scope.selectedSongs = [];
   $scope.showTab = 'search';
@@ -37,6 +37,8 @@ angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", "$http",
   $scope.activeTab = function(tab) {
     return $scope.showTab === tab;
   };
+
+  $scope.sortService = new SortService('+Artist');
 
   $scope.variableWidth = function() {
     var css = {}
