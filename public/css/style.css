@@ -41,6 +41,10 @@ a,
   color: #EB8753;
 }
 
+.playing .pointer:hover {
+  color: #0033FF;
+}
+
 .playing {
   background-color: #EB8753;
   color: #FFFFFF;
