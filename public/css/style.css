@@ -110,7 +110,8 @@ ul {
 }
 
 .playlist li {
-  border-bottom: 1px solid #CCCCCC;
+  border: 1px solid #CCCCCC;
+  margin: -1px;
   padding: 3px 10px;
 }
 
