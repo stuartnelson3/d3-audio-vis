@@ -32,7 +32,9 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "AudioP
       scope.audio.onended = function() {
         scope.current++;
         setActiveSong(scope.current);
-        scope.audio.src = scope.activeSong.Url;
+        if (scope.activeSong) {
+          scope.audio.src = scope.activeSong.Url;
+        }
       };
 
       scope.remove = function(index) {
