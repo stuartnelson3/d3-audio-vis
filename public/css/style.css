@@ -117,10 +117,12 @@ ul {
 
 .playlist-controls {
   position: absolute;
+  right: 0;
 }
 
 .song-handle {
   cursor: move;
+  width: 100%;
 }
 
 .container {
