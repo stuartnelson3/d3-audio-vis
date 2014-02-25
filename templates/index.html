@@ -10,39 +10,41 @@
       <span class="float-right">
         <input class="input" ng-model="searchText" placeholder="Search" type="text">
       </span>
-      <table class="search">
-        <tr>
-          <th class="pointer"
-            ng-click='sortService.setPredicate("Metadata.Track")'>Track</th>
-          <th class="pointer"
-            ng-click='sortService.setPredicate("Metadata.Name")'>Name</th>
-          <th class="pointer"
-            ng-click='sortService.setPredicate(["Metadata.Album", "Metadata.Track"])'>Album</th>
-          <th class="pointer"
-            ng-click='sortService.setPredicate(["Metadata.Artist", "Metadata.Album", "Metadata.Track"])'>Artist</th>
-          <th class="pointer"
-            ng-click='sortService.setPredicate("Metadata.Genre")'>Genre</th>
-        </tr>
-        <tr
-          ng-repeat="song in songs | filter:searchText |
-          orderBy:sortService.predicate():sortService.reverse()"
-          class="pointer"
-          ng-class="{odd: $odd}"
-          ng-click="queue(song)">
-          <td>{{song.Metadata.Track}}</td>
-          <td>{{song.Metadata.Name}}</td>
-          <td>{{song.Metadata.Album}}</td>
-          <td>{{song.Metadata.Artist}}</td>
-          <td>{{song.Metadata.Genre}}</td>
-        </tr>
-      </table>
+      <div class="table-container">
+        <table class="search">
+          <tr class="headers">
+            <th class="pointer"
+              ng-click='sortService.setPredicate("Metadata.Track")'>Track</th>
+            <th class="pointer"
+              ng-click='sortService.setPredicate("Metadata.Name")'>Name</th>
+            <th class="pointer"
+              ng-click='sortService.setPredicate(["Metadata.Album", "Metadata.Track"])'>Album</th>
+            <th class="pointer"
+              ng-click='sortService.setPredicate(["Metadata.Artist", "Metadata.Album", "Metadata.Track"])'>Artist</th>
+            <th class="pointer"
+              ng-click='sortService.setPredicate("Metadata.Genre")'>Genre</th>
+          </tr>
+          <tr
+            ng-repeat="song in songs | filter:searchText |
+            orderBy:sortService.predicate():sortService.reverse()"
+            class="pointer"
+            ng-class="{odd: $odd}"
+            ng-click="queue(song)">
+            <td>{{song.Metadata.Track}}</td>
+            <td>{{song.Metadata.Name}}</td>
+            <td>{{song.Metadata.Album}}</td>
+            <td>{{song.Metadata.Artist}}</td>
+            <td>{{song.Metadata.Genre}}</td>
+          </tr>
+        </table>
+      </div>
     </div>
 
     <div class='unit float-left' ng-show="activeTab('url')">
       <h2>Enter DMS URL</h2>
       <div class="ilb lh1 datestamp">
         <input class="input" ng-model="serverUrl" placeholder="enter url" type="text">
-        <i ng-click="addServer(serverUrl)" class="icon-plus pointer"></i>
+        <i ng-click="addServer(serverUrl)" class="glyphicon glyphicon-plus pointer"></i>
       </div>
     </div>
 
