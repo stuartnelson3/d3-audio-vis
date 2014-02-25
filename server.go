@@ -3,9 +3,8 @@ package main
 import (
     "github.com/codegangsta/martini"
     "github.com/codegangsta/martini-contrib/render"
-    "github.com/ascherkus/go-id3/src/id3"
+    "github.com/wtolson/go-taglib"
     "path/filepath"
-    "os"
 )
 
 func main() {
@@ -30,12 +29,19 @@ func Songs() []Song {
     songs := make([]Song, 0)
     paths, _ := filepath.Glob("songs/*.mp3")
     for i := 0; i < len(paths); i++ {
-        mp3File, err := os.Open(paths[i])
+        f, err := taglib.Read(paths[i])
         if err != nil {
             continue
         }
-        metadata := *id3.Read(mp3File)
-        song := Song{Metadata: metadata, Url: "/" + paths[i][6:]}
+        song := Song{}
+        song.Name = f.Title()
+        song.Artist = f.Artist()
+        song.Album = f.Album()
+        song.Year = f.Year()
+        song.Track = f.Track()
+        song.Genre = f.Genre()
+        song.Length = int(f.Length().Seconds())
+        song.Url = "/" + paths[i]
         songs = append(songs, song)
 
     }
@@ -56,6 +62,13 @@ type index struct {
 }
 
 type Song struct {
-    Metadata id3.File
+    Name string
+    Artist string
+    Album string
+    Year int
+    Track int
+    Genre string
+    Length int
+    Path string
     Url string
 }
