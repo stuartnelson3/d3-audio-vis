@@ -7,6 +7,7 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "AudioP
     restrict: 'E',
     templateUrl: 'templates/playlist.html',
     link: function(scope, element, attrs) {
+      SocketService.playlistScope = scope;
       $document.keydown(function(ev) {
         if (ev.keyCode === 32) { // Space keycode
           scope.audio.paused ? scope.audio.play() : scope.audio.pause();
@@ -69,13 +70,8 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "AudioP
         scope.activeSong = scope.songs[index];
       };
 
-      scope.play = function(index) {
+      scope.remotePlay = function(index) {
         var url = songUrl(index);
-        if (scope.activeSong === scope.songs[index]) {
-          scope.audio.play();
-          return;
-        }
-        setActiveSong(index);
         scope.audio.src = url;
         scope.current = index;
 
@@ -86,7 +82,17 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "AudioP
             scope.analyser.getByteFrequencyData(scope.array);
           });
         };
+      };
 
+      scope.play = function(index) {
+        if (scope.activeSong === scope.songs[index]) {
+          SocketService.remotePlay(index);
+          scope.audio.play();
+          return;
+        }
+        setActiveSong(index);
+        SocketService.remotePlay(index);
+        scope.remotePlay(index);
       };
 
     }
