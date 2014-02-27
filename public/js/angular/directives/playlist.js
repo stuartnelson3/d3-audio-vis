@@ -1,4 +1,4 @@
-angular.module('SongVis.directives').directive('playlist', ["$document", "AudioPlayer", function($document, AudioPlayer) {
+angular.module('SongVis.directives').directive('playlist', ["$document", "AudioPlayer", "SocketService", "$timeout", function($document, AudioPlayer, SocketService, $timeout) {
   return {
     scope: {
       songs: '=',
@@ -15,6 +15,9 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "AudioP
 
       scope.sortableOptions = {
         handle: ".song-handle",
+        update: function() {
+          $timeout(function() {SocketService.send(scope.songs);},0)
+        }
       };
 
       scope.audio = new Audio();
