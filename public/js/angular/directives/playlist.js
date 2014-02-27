@@ -39,6 +39,7 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "AudioP
 
       scope.remove = function(index) {
         scope.songs.splice(index, 1);
+        SocketService.send(scope.songs);
         if (scope.playing(index)) {
           scope.audio.pause();
         }
