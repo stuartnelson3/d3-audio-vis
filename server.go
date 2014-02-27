@@ -4,7 +4,12 @@ import (
     "github.com/codegangsta/martini"
     "github.com/codegangsta/martini-contrib/render"
     "github.com/wtolson/go-taglib"
+    "github.com/gorilla/websocket"
     "path/filepath"
+    "net/http"
+    "sync"
+    "net"
+    "log"
 )
 
 func main() {
@@ -20,6 +25,32 @@ func main() {
         scripts := Scripts()
         indexObj := index{Songs:songs, Scripts:scripts}
         r.HTML(200, "index", indexObj)
+    })
+
+    m.Get("/sock", func(w http.ResponseWriter, r *http.Request) {
+        log.Println(ActiveClients)
+        ws, err := websocket.Upgrade(w, r, nil, 1024, 1024)
+        if _, ok := err.(websocket.HandshakeError); ok {
+            http.Error(w, "Not a websocket handshake", 400)
+            return
+        } else if err != nil {
+            log.Println(err)
+            return
+        }
+        client := ws.RemoteAddr()
+        sockCli := ClientConn{ws, client}
+        addClient(sockCli)
+
+        for {
+            messageType, p, err := ws.ReadMessage()
+            if err != nil {
+                deleteClient(sockCli)
+                log.Println("bye")
+                log.Println(err)
+                return
+            }
+            broadcastMessage(messageType, p)
+        }
     })
 
     m.Run()
@@ -71,4 +102,35 @@ type Song struct {
     Length int
     Path string
     Url string
+}
+
+var ActiveClients = make(map[ClientConn]int)
+var ActiveClientsRWMutex sync.RWMutex
+
+type ClientConn struct {
+    websocket *websocket.Conn
+    clientIP  net.Addr
+}
+
+func addClient(cc ClientConn) {
+    ActiveClientsRWMutex.Lock()
+    ActiveClients[cc] = 0
+    ActiveClientsRWMutex.Unlock()
+}
+
+func deleteClient(cc ClientConn) {
+    ActiveClientsRWMutex.Lock()
+    delete(ActiveClients, cc)
+    ActiveClientsRWMutex.Unlock()
+}
+
+func broadcastMessage(messageType int, message []byte) {
+    ActiveClientsRWMutex.RLock()
+    defer ActiveClientsRWMutex.RUnlock()
+
+    for client, _ := range ActiveClients {
+        if err := client.websocket.WriteMessage(messageType, message); err != nil {
+            return
+        }
+    }
 }
