@@ -1,6 +1,7 @@
 angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", "$http", "SortService", "SocketService", function($scope, $http, SortService, SocketService) {
-  // socket = new SocketService($scope, $scope.selectedSongs);
-  socket = SocketService($scope, $scope.selectedSongs);
+  var socket = SocketService;
+  socket.scope = $scope;
+
   $scope.songs = songs;
   $scope.selectedSongs = [];
   $scope.showTab = 'search';
