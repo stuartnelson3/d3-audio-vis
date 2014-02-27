@@ -40,9 +40,11 @@ func main() {
         client := ws.RemoteAddr()
         sockCli := ClientConn{ws, client}
         addClient(sockCli)
-
+        // send new users current playlist
+        ws.WriteMessage(1, storedPlaylist);
         for {
             messageType, p, err := ws.ReadMessage()
+            storedPlaylist = p
             if err != nil {
                 deleteClient(sockCli)
                 log.Println("bye")
@@ -104,6 +106,7 @@ type Song struct {
     Url string
 }
 
+var storedPlaylist []byte
 var ActiveClients = make(map[ClientConn]int)
 var ActiveClientsRWMutex sync.RWMutex
 
