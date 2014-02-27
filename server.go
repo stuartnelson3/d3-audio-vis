@@ -74,7 +74,7 @@ func Songs() []Song {
         song.Track = f.Track()
         song.Genre = f.Genre()
         song.Length = int(f.Length().Seconds())
-        song.Url = "/" + paths[i]
+        song.Url = "/" + paths[i][6:]
         songs = append(songs, song)
 
     }
