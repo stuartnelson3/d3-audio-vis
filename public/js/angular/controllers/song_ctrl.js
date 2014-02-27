@@ -1,6 +1,5 @@
 angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", "$http", "SortService", "SocketService", function($scope, $http, SortService, SocketService) {
-  var socket = SocketService;
-  socket.scope = $scope;
+  SocketService.scope = $scope;
 
   $scope.songs = songs;
   $scope.selectedSongs = [];
@@ -31,15 +30,8 @@ angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", "$http",
 
   $scope.queue = function(song) {
     $scope.selectedSongs.push(song);
-    socket.send($scope.selectedSongs);
+    SocketService.send($scope.selectedSongs);
   };
-
-  $scope.$watch(function() {
-    return socket.songs
-  }, function(newSongs, oldSongs) {
-    if (!newSongs) return;
-    $scope.selectedSongs = newSongs;
-  });
 
   $scope.toggleTab = function(tab) {
     $scope.showTab = tab;
