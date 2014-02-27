@@ -9,7 +9,7 @@ angular.module("SongVis.services").factory('SocketService', function() {
       scope.$apply(function() {
         var data = JSON.parse(e.data||JSON.stringify({songs:[]}));
         if (data.songs) {
-        scope.selectedSongs = data.songs;
+          scope.selectedSongs = data.songs;
         } else if (data.index > -1) {
           socketContainer.playlistScope.remotePlay(data.index);
         }

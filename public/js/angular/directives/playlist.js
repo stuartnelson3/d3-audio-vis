@@ -87,7 +87,6 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "AudioP
       scope.play = function(index) {
         if (scope.activeSong === scope.songs[index]) {
           SocketService.remotePlay(index);
-          scope.audio.play();
           return;
         }
         setActiveSong(index);
