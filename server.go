@@ -101,8 +101,7 @@ func QuerySongs(search string) []Song {
     for _, song := range songs {
         s := []string{song.Name, song.Artist, song.Album, song.Genre}
         for _, attr := range s {
-            // make this case insensitive
-            if match, _ := regexp.MatchString(search, attr); match {
+            if match, _ := regexp.MatchString("(?i)"+search, attr); match {
                 matches = append(matches, song)
                 break
             }
