@@ -31,7 +31,6 @@ func main() {
     m.Get("/search", func(w http.ResponseWriter, r *http.Request) {
         search := r.FormValue("search")
         enc := json.NewEncoder(w)
-        // write querySongs method
         s := QuerySongs(search)
         enc.Encode(s)
     })

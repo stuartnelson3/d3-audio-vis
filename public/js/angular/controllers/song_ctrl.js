@@ -1,4 +1,10 @@
-angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", "$http", "SortService", "SocketService", function($scope, $http, SortService, SocketService) {
+angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", "$http", "$document", "SortService", "SocketService", function($scope, $http, $document, SortService, SocketService) {
+  $document.keydown(function(ev) {
+    if (ev.keyCode === 13 && $(ev.target).hasClass("js-search-form")) { // Enter keycode
+      $scope.searchServers();
+    }
+  });
+
   SocketService.scope = $scope;
   $scope.songs = [];
   $scope.selectedSongs = [];

@@ -77,7 +77,7 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "AudioP
 
       var setActiveSong = function(index) {
         scope.activeSong = scope.songs[index];
-        scope.activeSong.index = index;
+        (scope.activeSong||{}).index = index;
       };
 
       scope.remotePlay = function(index) {
