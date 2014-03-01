@@ -51,11 +51,11 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "AudioP
 
       scope.pause = function() {
         scope.audio.pause();
-      }
+      };
 
       scope.playing = function(index) {
-        return scope.activeSong === scope.songs[index] &&
-          !scope.audio.paused
+        return scope.activeSong.Name == scope.songs[index].Name &&
+          !scope.audio.paused;
       };
 
       var songUrl = function(index) {
