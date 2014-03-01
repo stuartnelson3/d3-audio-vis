@@ -3,6 +3,7 @@ angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", "$http",
 
   $scope.songs = songs;
   $scope.selectedSongs = [];
+  var localSongs = [];
   $scope.showTab = 'search';
   $scope.data = [];
   for (var i = 0; i < 32; $scope.data.push(i++)) {}
@@ -14,12 +15,6 @@ angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", "$http",
         return function(d,i) {
           var amnt = (array[i]*0.2)|0
           return amnt;
-          // amnt = Math.pow(amnt, 2) // whooa!
-          // if (amnt > 15) {
-          //   return initial + amnt;
-          // } else {
-          //   return 5;
-          // }
         };
       };
       d3Selection.transition().duration(50)
@@ -29,8 +24,8 @@ angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", "$http",
   }
 
   $scope.queue = function(song) {
-    $scope.selectedSongs.push(song);
-    SocketService.send($scope.selectedSongs);
+    localSongs.push(song)
+    SocketService.send(localSongs);
   };
 
   $scope.toggleTab = function(tab) {
@@ -65,5 +60,5 @@ angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", "$http",
     });
   };
 
-  $scope.addServer('localhost:4000')
+  $scope.addServer('stuart.local:4000')
 }]);

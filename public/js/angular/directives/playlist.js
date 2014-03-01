@@ -71,6 +71,11 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "AudioP
       };
 
       scope.remotePlay = function(index) {
+        if (scope.activeSong === scope.songs[index]) {
+          scope.audio.play();
+          return;
+        }
+        setActiveSong(index);
         var url = songUrl(index);
         scope.audio.src = url;
         scope.current = index;
@@ -85,11 +90,6 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "AudioP
       };
 
       scope.play = function(index) {
-        if (scope.activeSong === scope.songs[index]) {
-          SocketService.remotePlay(index);
-          return;
-        }
-        setActiveSong(index);
         SocketService.remotePlay(index);
         scope.remotePlay(index);
       };
