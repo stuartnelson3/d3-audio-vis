@@ -17,7 +17,9 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "AudioP
       scope.sortableOptions = {
         handle: ".song-handle",
         update: function() {
-          $timeout(function() {SocketService.send(scope.songs);},0)
+          $timeout(function() {
+            SocketService.send(scope.songs);
+          },0)
         }
       };
 

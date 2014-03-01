@@ -6,9 +6,13 @@
   </ul>
   <div class="main_window ilb clearfix float-left" ng-style="variableWidth()">
     <div ng-show="activeTab('search')">
-      <h2 class="ilb">Songs</h2>
       <span class="float-right">
         <input class="input" ng-model="searchText" placeholder="Search" type="text">
+        <i ng-click="searchServers()" class="glyphicon glyphicon-refresh pointer"></i>
+      </span>
+      <h2 class="ilb">Songs</h2>
+      <span class="float-right">
+        <input class="input" ng-show="songs.length" ng-model="filterText" placeholder="Filter Results" type="text">
       </span>
       <div class="table-container">
         <table class="search">
@@ -25,7 +29,7 @@
               ng-click='sortService.setPredicate("Genre")'>Genre</th>
           </tr>
           <tr
-            ng-repeat="song in songs | filter:searchText |
+            ng-repeat="song in songs | filter:filterText |
             orderBy:sortService.predicate():sortService.reverse()"
             class="pointer"
             ng-class="{odd: $odd}"
@@ -41,10 +45,18 @@
     </div>
 
     <div class='unit float-left' ng-show="activeTab('url')">
-      <h2>Enter DMS URL</h2>
-      <div class="ilb lh1 datestamp">
-        <input class="input" ng-model="serverUrl" placeholder="enter url" type="text">
+      <h2>Current Servers</h2>
+      <div class="lh1 ilb">
+        <input class="input" ng-model="serverUrl" placeholder="Add Server" type="text">
         <i ng-click="addServer(serverUrl)" class="glyphicon glyphicon-plus pointer"></i>
+      </div>
+      <div class="ilb">
+        <ul>
+          <li ng-repeat="server in servers track by $index">
+            {{server}}
+            <i ng-click="removeServer($index)" class="glyphicon glyphicon-remove pointer"></i>
+          </li>
+        </ul>
       </div>
     </div>
 

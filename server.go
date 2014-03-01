@@ -6,6 +6,7 @@ import (
     "github.com/wtolson/go-taglib"
     "github.com/gorilla/websocket"
     "path/filepath"
+    "encoding/json"
     "net/http"
     "regexp"
     "sync"
@@ -22,10 +23,17 @@ func main() {
         Extensions: []string{".html"}}))
 
     m.Get("/", func(r render.Render) {
-        songs := Songs()
         scripts := Scripts()
         indexObj := index{Songs:songs, Scripts:scripts}
         r.HTML(200, "index", indexObj)
+    })
+
+    m.Get("/search", func(w http.ResponseWriter, r *http.Request) {
+        search := r.FormValue("search")
+        enc := json.NewEncoder(w)
+        // write querySongs method
+        s := QuerySongs(search)
+        enc.Encode(s)
     })
 
     m.Get("/sock", func(w http.ResponseWriter, r *http.Request) {
@@ -61,6 +69,7 @@ func main() {
     m.Run()
 }
 
+var songs = Songs()
 func Songs() []Song {
     songs := make([]Song, 0)
     paths, _ := filepath.Glob("songs/*.mp3")
@@ -77,11 +86,29 @@ func Songs() []Song {
         song.Track = f.Track()
         song.Genre = f.Genre()
         song.Length = int(f.Length().Seconds())
-        song.Url = "/" + paths[i][6:]
+        song.Path = "/" + paths[i][6:]
         songs = append(songs, song)
 
     }
     return songs
+}
+
+func QuerySongs(search string) []Song {
+    matches := make([]Song, 0)
+    if search == "" {
+        return matches
+    }
+    for _, song := range songs {
+        s := []string{song.Name, song.Artist, song.Album, song.Genre}
+        for _, attr := range s {
+            // make this case insensitive
+            if match, _ := regexp.MatchString(search, attr); match {
+                matches = append(matches, song)
+                break
+            }
+        }
+    }
+    return matches
 }
 
 func Scripts() []string {

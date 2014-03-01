@@ -1,8 +1,8 @@
 angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", "$http", "SortService", "SocketService", function($scope, $http, SortService, SocketService) {
   SocketService.scope = $scope;
-
-  $scope.songs = songs;
+  $scope.songs = [];
   $scope.selectedSongs = [];
+  $scope.servers = [location.origin];
   $scope.showTab = 'search';
   $scope.data = [];
   for (var i = 0; i < 32; $scope.data.push(i++)) {}
@@ -47,17 +47,30 @@ angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", "$http",
 
   $scope.addServer = function(url) {
     // add check for http://
-    url = "http://" + url;
-    $http.get(url).then(function(data) {
-      var songs = data.data.Songs;
+    $scope.servers.push("http://" + url);
+  };
+
+  $scope.removeServer = function(index) {
+    $scope.servers.splice(index, 1);
+  };
+
+  $scope.searchServers = function() {
+    $scope.songs = [];
+    $scope.servers.forEach(function(server) {
+      $http.get(server + "/search", {params: {search: $scope.searchText}})
+      .then(processServerResponse(server))
+    })
+  };
+
+  function processServerResponse(url) {
+    return function(payload) {
+      var songs = payload.data;
       songs.forEach(function(s) {
         s.Url = url+s.Path;
       });
       $scope.songs.push.apply($scope.songs, songs);
-    }, function(failure) {
-      console.log("An error occurred, bummer.");
-    });
-  };
+    }
+  }
 
   $scope.addServer('stuart.local:4000')
 }]);
