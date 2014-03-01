@@ -12,6 +12,8 @@ angular.module("SongVis.services").factory('SocketService', function() {
           scope.selectedSongs = data.songs;
         } else if (data.index > -1) {
           socketContainer.playlistScope.remotePlay(data.index);
+        } else if (data.pause) {
+          socketContainer.playlistScope.remotePause();
         }
       });
     }
@@ -23,6 +25,10 @@ angular.module("SongVis.services").factory('SocketService', function() {
 
   socketContainer.remotePlay = function(index) {
     ws.send(JSON.stringify({index: index}));
+  };
+
+  socketContainer.pause = function() {
+    ws.send(JSON.stringify({pause: true}));
   };
 
   return socketContainer;

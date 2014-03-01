@@ -50,11 +50,18 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "AudioP
       };
 
       scope.pause = function() {
+        SocketService.pause();
+        scope.remotePause();
+      }
+
+      scope.remotePause = function() {
         scope.audio.pause();
       };
 
       scope.playing = function(index) {
-        return scope.activeSong.Name == scope.songs[index].Name &&
+        scope.activeSong = scope.activeSong || {};
+        return scope.activeSong.Name === scope.songs[index].Name &&
+          scope.activeSong.index === index &&
           !scope.audio.paused;
       };
 
@@ -68,6 +75,7 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "AudioP
 
       var setActiveSong = function(index) {
         scope.activeSong = scope.songs[index];
+        scope.activeSong.index = index;
       };
 
       scope.remotePlay = function(index) {
