@@ -7,6 +7,7 @@ import (
     "github.com/gorilla/websocket"
     "path/filepath"
     "net/http"
+    "regexp"
     "sync"
     "net"
     "log"
@@ -28,7 +29,6 @@ func main() {
     })
 
     m.Get("/sock", func(w http.ResponseWriter, r *http.Request) {
-        log.Println(ActiveClients)
         ws, err := websocket.Upgrade(w, r, nil, 1024, 1024)
         if _, ok := err.(websocket.HandshakeError); ok {
             http.Error(w, "Not a websocket handshake", 400)
@@ -40,11 +40,14 @@ func main() {
         client := ws.RemoteAddr()
         sockCli := ClientConn{ws, client}
         addClient(sockCli)
+        log.Println(ActiveClients)
         // send new users current playlist
         ws.WriteMessage(1, storedPlaylist);
         for {
             messageType, p, err := ws.ReadMessage()
-            storedPlaylist = p
+            if match, _ := regexp.Match(`songs`, p); match {
+                storedPlaylist = p
+            }
             if err != nil {
                 deleteClient(sockCli)
                 log.Println("bye")
