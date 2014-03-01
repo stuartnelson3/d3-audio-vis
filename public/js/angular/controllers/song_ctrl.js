@@ -3,7 +3,6 @@ angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", "$http",
 
   $scope.songs = songs;
   $scope.selectedSongs = [];
-  var localSongs = [];
   $scope.showTab = 'search';
   $scope.data = [];
   for (var i = 0; i < 32; $scope.data.push(i++)) {}
@@ -24,8 +23,8 @@ angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", "$http",
   }
 
   $scope.queue = function(song) {
-    localSongs.push(song)
-    SocketService.send(localSongs);
+    $scope.selectedSongs.push(song)
+    SocketService.send($scope.selectedSongs);
   };
 
   $scope.toggleTab = function(tab) {
