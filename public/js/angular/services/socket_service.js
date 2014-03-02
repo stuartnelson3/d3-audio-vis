@@ -23,6 +23,11 @@ angular.module("SongVis.services").factory('SocketService', function() {
     ws.send(JSON.stringify({songs: angular.copy(songs)}));
   };
 
+  socketContainer.remove = function(songs) {
+    this.send(songs);
+    this.pause();
+  };
+
   socketContainer.remotePlay = function(index) {
     ws.send(JSON.stringify({index: index}));
   };
