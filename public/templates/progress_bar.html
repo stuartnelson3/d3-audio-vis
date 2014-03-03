@@ -1,6 +1,6 @@
 <div class="progress-container">
   Elapsed: {{elapsedTime()}}
-  <div class="progress-bar ilb">
+  <div class="progress-bar ilb" ng-click="updateProgress($event)">
     <div class="abs progress-played" ng-style="progress()"></div>
     <div class="abs progress-buffered" ng-style="buffered()"></div>
   </div>

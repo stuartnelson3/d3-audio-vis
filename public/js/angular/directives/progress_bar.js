@@ -6,7 +6,11 @@ angular.module("SongVis.directives").directive("progressBar", ["SocketService", 
     restrict: 'E',
     templateUrl: 'templates/progress_bar.html',
     link: function(scope, element, attrs) {
-      var progress = 0;
+      scope.updateProgress = function(ev) {
+        if (!scope.audio.src) return;
+        var songPercent = ev.offsetX / ev.currentTarget.clientWidth;
+        scope.audio.currentTime = songPercent * scope.audio.duration;
+      };
 
       scope.elapsedTime = function() {
         var currentTime = scope.audio.currentTime;
@@ -21,9 +25,7 @@ angular.module("SongVis.directives").directive("progressBar", ["SocketService", 
       };
 
       scope.progress = function() {
-        if (scope.audio.src && !scope.audio.paused) {
-          progress = (scope.audio.currentTime / scope.audio.duration * 100).toFixed(1);
-        }
+        var progress = (scope.audio.currentTime / scope.audio.duration * 100).toFixed(1);
         return {width: progress.toString() + "%"};
       };
 

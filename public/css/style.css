@@ -206,6 +206,7 @@ progress-bar {
 
 .progress-played {
   background-color: #EB8753;
+  border-right: 3px solid #E35D17;
   height: 100%;
   width: 0%;
   z-index: 10;
