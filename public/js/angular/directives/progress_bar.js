@@ -6,6 +6,8 @@ angular.module("SongVis.directives").directive("progressBar", ["SocketService", 
     restrict: 'E',
     templateUrl: 'templates/progress_bar.html',
     link: function(scope, element, attrs) {
+      var progress = 0;
+
       scope.elapsedTime = function() {
         var currentTime = scope.audio.currentTime;
         var minutes = ""+parseInt(currentTime/60, 10);
@@ -19,32 +21,36 @@ angular.module("SongVis.directives").directive("progressBar", ["SocketService", 
       };
 
       scope.progress = function() {
-        if (!scope.audio.src || scope.audio.paused) return;
-        var progress = (scope.audio.currentTime / scope.audio.duration * 100).toFixed(1);
-        return progress;
+        if (scope.audio.src && !scope.audio.paused) {
+          progress = (scope.audio.currentTime / scope.audio.duration * 100).toFixed(1);
+        }
+        return {width: progress.toString() + "%"};
       };
 
       scope.buffered = function() {
         try { // bail if audio.buffered.start(0) throws index less than obj's length
           if (!scope.audio.src) return;
-          var bufferedSeconds = scope.audio.buffered.end(0) - scope.audio.buffered.start(0);
-          return 100 * bufferedSeconds / scope.audio.duration;
-        } catch (e) {
-          return;
-        }
-      };
-
-      scope.bufferedCSS = function() {
-        try { // bail if audio.buffered.start(0) throws index less than obj's length
-          if (!scope.audio.src) return;
           var css = {};
-          css.left = scope.audio.buffered.start(0) / scope.audio.duration;
-          css.width = scope.buffered() / element[0].querySelector(".progress-bar").clientWidth;
+          css.width = bufferedWidth();
+          css.left = bufferedLeftOffset();
           return css;
         } catch (e) {
           return;
         }
       };
+
+      function bufferedWidth() {
+        var bufferedSeconds = scope.audio.buffered.end(0) - scope.audio.buffered.start(0);
+        return toCSSPercent(bufferedSeconds / scope.audio.duration);
+      }
+
+      function bufferedLeftOffset() {
+        return toCSSPercent(scope.audio.buffered.start(0)/scope.audio.duration);
+      }
+
+      function toCSSPercent(fraction) {
+        return (100*fraction).toString() + "%";
+      }
     }
   }
 }]);

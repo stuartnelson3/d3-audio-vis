@@ -1,12 +1,7 @@
-<div>
+<div class="progress-container">
   Elapsed: {{elapsedTime()}}
-</div>
-<div>
-  % played: {{progress()}}
-</div>
-<div>
-  % buffered: {{buffered()}}
-</div>
-<div>
-  buffered css: {{bufferedCSS()}}
+  <div class="progress-bar ilb">
+    <div class="abs progress-played" ng-style="progress()"></div>
+    <div class="abs progress-buffered" ng-style="buffered()"></div>
+  </div>
 </div>
