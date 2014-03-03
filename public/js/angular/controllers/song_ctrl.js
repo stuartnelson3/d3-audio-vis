@@ -1,6 +1,6 @@
 angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", "$http", "$document", "SortService", "SocketService", function($scope, $http, $document, SortService, SocketService) {
-  $document.keydown(function(ev) {
-    if (ev.keyCode === 13 && $(ev.target).hasClass("js-search-form")) { // Enter keycode
+  $document.on('keydown', ".js-search-form", function(ev) {
+    if (ev.keyCode === 13) { // Enter keycode
       $scope.searchServers();
     }
   });
