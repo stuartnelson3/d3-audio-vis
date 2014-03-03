@@ -5,6 +5,7 @@ angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", "$http",
     }
   });
 
+  $scope.audio = new Audio();
   SocketService.scope = $scope;
   $scope.songs = [];
   $scope.selectedSongs = [];

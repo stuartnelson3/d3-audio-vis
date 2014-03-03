@@ -2,6 +2,7 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "AudioP
   return {
     scope: {
       songs: '=',
+      audio: '=',
       array: '='
     },
     restrict: 'E',
@@ -22,8 +23,6 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "AudioP
           },0)
         }
       };
-
-      scope.audio = new Audio();
 
       var audioPlayer = new AudioPlayer();
       audioPlayer.setupAudioNodes();
