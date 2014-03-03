@@ -1,4 +1,4 @@
-angular.module("SongVis.directives").directive("progressBar", [function() {
+angular.module("SongVis.directives").directive("progressBar", ["SocketService", function(SocketService) {
   return {
     scope: {
       audio: '='
@@ -18,17 +18,33 @@ angular.module("SongVis.directives").directive("progressBar", [function() {
         return minutes + seconds;
       };
 
+      scope.progress = function() {
+        if (!scope.audio.src || scope.audio.paused) return;
+        var progress = (scope.audio.currentTime / scope.audio.duration * 100).toFixed(1);
+        return progress;
+      };
 
-      //
-      // audio.duration gives total length in seconds
-      // scope.audio.buffered.start(0) for beginning point of buffer
-      // position for start of buffered line. this/duration = percentage of line to start
-      // scope.audio.buffered.end(0) for current end of buffer
-      // render the grey "buffered" line with this guy
-      // this/duration = percentage of line where it is up to
-      //
-      // audio.currentTime gives current position in seconds
+      scope.buffered = function() {
+        try { // bail if audio.buffered.start(0) throws index less than obj's length
+          if (!scope.audio.src) return;
+          var bufferedSeconds = scope.audio.buffered.end(0) - scope.audio.buffered.start(0);
+          return 100 * bufferedSeconds / scope.audio.duration;
+        } catch (e) {
+          return;
+        }
+      };
 
+      scope.bufferedCSS = function() {
+        try { // bail if audio.buffered.start(0) throws index less than obj's length
+          if (!scope.audio.src) return;
+          var css = {};
+          css.left = scope.audio.buffered.start(0) / scope.audio.duration;
+          css.width = scope.buffered() / element[0].querySelector(".progress-bar").clientWidth;
+          return css;
+        } catch (e) {
+          return;
+        }
+      };
     }
   }
 }]);
