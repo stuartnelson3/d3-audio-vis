@@ -67,18 +67,13 @@ angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", "$http",
     $scope.songs = [];
     $scope.servers.forEach(function(server) {
       $http.get(server + "/search", {params: {search: $scope.searchText}})
-      .then(processServerResponse(server))
+      .then(processServerResponse)
     })
   };
 
-  function processServerResponse(url) {
-    return function(payload) {
-      var songs = payload.data;
-      songs.forEach(function(s) {
-        s.Url = url+s.Path;
-      });
-      $scope.songs.push.apply($scope.songs, songs);
-    }
+  function processServerResponse(payload) {
+    var songs = payload.data;
+    $scope.songs.push.apply($scope.songs, songs);
   }
 
   $scope.addServer('stuart.local:4000')
