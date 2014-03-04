@@ -19,8 +19,9 @@ angular.module('SongVis.directives').directive('circles', [function() {
         .transition()
         .delay(function(d,i) { return 150*i})
         .duration(1500)
-        .attr('cy', 260)
-        .attr('cx', function(d,i) { return i*30 + 20; })
+        // .attr('cy', 260)
+        .attr('cy', function(d,i) { return (Math.random()*scope.height)+1})
+        .attr('cx', function(d,i) { return i*60 + 80; })
         .attr('r', function(d,i) { return 5; })
         .style('fill', function(d,i) { return scope.color(i); })
 

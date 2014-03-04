@@ -12,19 +12,21 @@ angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", "$http",
   $scope.servers = [location.origin];
   $scope.showTab = 'search';
   $scope.data = [];
-  for (var i = 0; i < 32; $scope.data.push(i++)) {}
+  for (var i = 0; i < 16; $scope.data.push(i++)) {}
 
   $scope.update = function(d3Selection) {
     return function(array) {
       if (!array || $scope.showTab !== 'vis') return;
       var wiggle = function(initial) {
         return function(d,i) {
-          var amnt = (array[i]*0.2)|0
-          return amnt;
+          var amnt = (array[i]*0.4)|0
+          var evener = 1;
+          if (i > 2) evener = i;
+          return amnt * evener;
         };
       };
-      d3Selection.transition().duration(50)
-      .attr('cx', function(d,i) { return i*30 + 20; })
+      d3Selection//.transition().duration(100)
+      // .attr('cx', function(d,i) { return i*30 + 20; })
       .attr('r', wiggle(0))
     };
   }
