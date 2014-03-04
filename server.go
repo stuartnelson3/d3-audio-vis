@@ -9,9 +9,11 @@ import (
     "encoding/json"
     "net/http"
     "regexp"
+    "errors"
     "sync"
-    "net"
     "log"
+    "net"
+    "os"
 )
 
 func main() {
@@ -85,11 +87,41 @@ func Songs() []Song {
         song.Track = f.Track()
         song.Genre = f.Genre()
         song.Length = int(f.Length().Seconds())
-        song.Path = "/" + paths[i][6:]
+        ip, _ := localIP()
+        port := "3000"
+        if envPort := os.Getenv("PORT"); envPort != "" {
+            port = envPort
+        }
+        song.Url = "http://" + ip.String() + ":" + port + "/" + paths[i][6:]
         songs = append(songs, song)
 
     }
     return songs
+}
+
+func localIP() (net.IP, error) {
+    tt, err := net.Interfaces()
+    if err != nil {
+        return nil, err
+    }
+    for _, t := range tt {
+        aa, err := t.Addrs()
+        if err != nil {
+            return nil, err
+        }
+        for _, a := range aa {
+            ipnet, ok := a.(*net.IPNet)
+            if !ok {
+                continue
+            }
+            v4 := ipnet.IP.To4()
+            if v4 == nil || v4[0] == 127 { // loopback address
+                continue
+            }
+            return v4, nil
+        }
+    }
+    return nil, errors.New("cannot find local IP address")
 }
 
 func QuerySongs(search string) []Song {
@@ -123,15 +155,14 @@ type index struct {
 }
 
 type Song struct {
-    Name string
-    Artist string
-    Album string
-    Year int
-    Track int
-    Genre string
-    Length int
-    Path string
-    Url string
+    Name   string `json:"name"`
+    Artist string `json:"artist"`
+    Album  string `json:"album"`
+    Year   int    `json:"year"`
+    Track  int    `json:"track"`
+    Genre  string `json:"genre"`
+    Length int    `json:"length"`
+    Url    string `json:"url"`
 }
 
 var storedPlaylist []byte

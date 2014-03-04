@@ -6,7 +6,7 @@
     ng-class="{playing: playing($index)}"
     class="ellipsis queue-song">
     <div class="ilb song-handle">
-      {{song.Name}}
+      {{song.name}}
       <div ng-show="hover" class="ilb playlist-controls">
         <i ng-click="play($index)" ng-hide="playing($index)" class="glyphicon glyphicon-play pointer"></i>
         <i ng-click="pause()" ng-show="playing($index)" class="glyphicon glyphicon-pause pointer"></i>

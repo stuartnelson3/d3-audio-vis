@@ -58,13 +58,13 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "AudioP
 
       scope.playing = function(index) {
         scope.activeSong = scope.activeSong || {};
-        return scope.activeSong.Name === scope.songs[index].Name &&
+        return scope.activeSong.name === scope.songs[index].name &&
           scope.activeSong.index === index &&
           !scope.audio.paused;
       };
 
       var songUrl = function(index) {
-        return scope.songs[index].Url;
+        return scope.songs[index].url;
       };
 
       var currentSongUrl = function() {

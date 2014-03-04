@@ -44,7 +44,7 @@ angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", "$http",
     return $scope.showTab === tab;
   };
 
-  $scope.sortService = new SortService(['+Artist', 'Album', 'Track']);
+  $scope.sortService = new SortService(['+artist', 'album', 'track']);
 
   $scope.variableWidth = function() {
     var css = {}
@@ -76,5 +76,5 @@ angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", "$http",
     $scope.songs.push.apply($scope.songs, songs);
   }
 
-  $scope.addServer('stuart.local:4000')
+  $scope.addServer('localhost:4000')
 }]);
