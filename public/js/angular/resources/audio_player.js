@@ -5,7 +5,6 @@ angular.module("SongVis.resources").factory("AudioPlayer", [function() {
 
   audioPlayer.player = new Audio();
   var player = audioPlayer.player;
-  audioPlayer.player.autoplay = true;
   audioPlayer.songs = [];
 
   audioPlayer.setSrc = function(src) {
@@ -16,12 +15,17 @@ angular.module("SongVis.resources").factory("AudioPlayer", [function() {
     return !player.paused;
   };
 
+  audioPlayer.songIndex = function() {
+    return audioPlayer.songs.indexOf(audioPlayer.currentSong());
+  };
+
   audioPlayer.play = function() {
     player.play();
   };
 
   audioPlayer.remotePlay = function(i) {
     var song = audioPlayer.songs[i];
+    player.autoplay = true;
     if (currentSong === song) {
       player.play();
       return;
