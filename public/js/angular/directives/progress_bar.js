@@ -9,6 +9,13 @@ angular.module("SongVis.directives").directive("progressBar", ["AudioPlayer", fu
       scope.pause = AudioPlayer.pause;
       scope.audio = AudioPlayer.player;
 
+      scope.playPrevious = function() {
+        AudioPlayer.playPrevious();
+      };
+      scope.playNext = function() {
+        AudioPlayer.playNext();
+      };
+
       scope.updateProgress = function(ev) {
         if (!scope.audio.src) return;
         var songPercent = ev.offsetX / ev.currentTarget.clientWidth;

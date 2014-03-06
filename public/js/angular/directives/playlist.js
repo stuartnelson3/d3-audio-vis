@@ -9,6 +9,10 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "Visual
     link: function(scope, element, attrs) {
       scope.audioPlayer = AudioPlayer;
       scope.audio = AudioPlayer.player;
+      scope.$watch('songs', function(newSongs, oldSongs) {
+        AudioPlayer.songs = newSongs;
+      });
+
       SocketService.playlistScope = scope;
       $document.on('keydown', function(ev) {
         if (ev.keyCode === 32 && !$(ev.target).is(":focus")) { // Space keycode
@@ -37,9 +41,9 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "Visual
 
       scope.audio.onended = function() {
         scope.current++;
-        setActiveSong(scope.current);
+        setCurrentSong(scope.current);
         if (scope.activeSong) {
-          scope.audio.src = scope.activeSong.Url;
+          scope.audio.src = scope.activeSong.url;
         }
       };
 
@@ -58,9 +62,8 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "Visual
       };
 
       scope.playing = function(index) {
-        scope.activeSong = scope.activeSong || {};
-        return scope.activeSong.name === scope.songs[index].name &&
-          scope.activeSong.index === index &&
+        var currentSong = AudioPlayer.currentSong() || {};
+        return currentSong === scope.songs[index] &&
           !scope.audio.paused;
       };
 
@@ -72,9 +75,8 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "Visual
         return scope.audio.src.replace(location.origin, "")
       };
 
-      var setActiveSong = function(index) {
-        scope.activeSong = scope.songs[index];
-        (scope.activeSong||{}).index = index;
+      var setCurrentSong = function(index) {
+        AudioPlayer.setCurrentSong(scope.songs[index]);
       };
 
       scope.remotePlay = function(index) {
@@ -82,7 +84,7 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "Visual
           scope.audio.play();
           return;
         }
-        setActiveSong(index);
+        setCurrentSong(index);
         var url = songUrl(index);
         scope.audio.src = url;
         scope.current = index;
