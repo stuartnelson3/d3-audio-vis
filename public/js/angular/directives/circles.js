@@ -1,9 +1,9 @@
 angular.module('SongVis.directives').directive('circles', ["Visualizer", function(Visualizer) {
   return {
     scope: {
+      showTab: '=',
       height: '@',
-      width: '@',
-      update: '&',
+      width: '@'
     },
     restrict: 'E',
     link: function(scope, element, attrs) {
@@ -23,9 +23,23 @@ angular.module('SongVis.directives').directive('circles', ["Visualizer", functio
         .attr('r', function(d,i) { return 5; })
         .style('fill', function(d,i) { return scope.color(i); })
 
-      var updateFn = scope.update();
+      function update(d3Selection, array) {
+        if (!array || scope.showTab !== 'vis') return;
+        var wiggle = function(initial) {
+          return function(d,i) {
+            var amnt = (array[i]*0.4)|0
+            var evener = 1;
+            if (i > 2) evener = i*0.6;
+            return amnt * evener;
+          };
+        };
+        d3Selection//.transition().duration(100)
+        // .attr('cx', function(d,i) { return i*30 + 20; })
+        .attr('r', wiggle(0))
+      };
+
       scope.$watch('frequencyData()', function(newData) {
-        updateFn(scope.circles)(newData);
+        update(scope.circles, newData);
       });
     }
   };
