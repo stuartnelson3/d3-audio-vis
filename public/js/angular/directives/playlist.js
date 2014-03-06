@@ -63,10 +63,6 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "Visual
         return scope.songs[index].url;
       };
 
-      var currentSongUrl = function() {
-        return scope.audio.src.replace(location.origin, "")
-      };
-
       var setCurrentSong = function(index) {
         AudioPlayer.setCurrentSong(scope.songs[index]);
       };
