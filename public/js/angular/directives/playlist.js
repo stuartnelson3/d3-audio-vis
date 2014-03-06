@@ -1,13 +1,14 @@
-angular.module('SongVis.directives').directive('playlist', ["$document", "Visualizer", "SocketService", "$timeout", function($document, Visualizer, SocketService, $timeout) {
+angular.module('SongVis.directives').directive('playlist', ["$document", "Visualizer", "SocketService", "$timeout", "AudioPlayer", function($document, Visualizer, SocketService, $timeout, AudioPlayer) {
   return {
     scope: {
       songs: '=',
-      audio: '=',
       array: '='
     },
     restrict: 'E',
     templateUrl: 'templates/playlist.html',
     link: function(scope, element, attrs) {
+      scope.audioPlayer = AudioPlayer;
+      scope.audio = AudioPlayer.player;
       SocketService.playlistScope = scope;
       $document.on('keydown', function(ev) {
         if (ev.keyCode === 32 && !$(ev.target).is(":focus")) { // Space keycode

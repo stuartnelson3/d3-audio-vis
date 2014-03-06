@@ -1,5 +1,11 @@
 <div class="progress-container">
   Elapsed: {{elapsedTime()}}
+  <div ng-show="audio.src" class="ilb progress-bar-controls">
+    <i ng-click="pause()" class="glyphicon glyphicon-step-backward pointer"></i>
+    <i ng-click="play()" ng-hide="playing()" class="glyphicon glyphicon-play pointer"></i>
+    <i ng-click="pause()" ng-show="playing()" class="glyphicon glyphicon-pause pointer"></i>
+    <i ng-click="pause()" class="glyphicon glyphicon-step-forward pointer"></i>
+  </div>
   <div class="progress-bar ilb" ng-click="updateProgress($event)">
     <div class="abs progress-played" ng-style="progress()"></div>
     <div class="abs progress-buffered" ng-style="buffered()"></div>

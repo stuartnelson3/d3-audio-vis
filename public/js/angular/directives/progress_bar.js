@@ -1,11 +1,14 @@
-angular.module("SongVis.directives").directive("progressBar", ["SocketService", function(SocketService) {
+angular.module("SongVis.directives").directive("progressBar", ["AudioPlayer", function(AudioPlayer) {
   return {
-    scope: {
-      audio: '='
-    },
+    scope: {},
     restrict: 'E',
     templateUrl: 'templates/progress_bar.html',
     link: function(scope, element, attrs) {
+      scope.playing = AudioPlayer.playing;
+      scope.play = AudioPlayer.play;
+      scope.pause = AudioPlayer.pause;
+      scope.audio = AudioPlayer.player;
+
       scope.updateProgress = function(ev) {
         if (!scope.audio.src) return;
         var songPercent = ev.offsetX / ev.currentTarget.clientWidth;
