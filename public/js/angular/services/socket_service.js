@@ -1,4 +1,4 @@
-angular.module("SongVis.services").factory('SocketService', function() {
+angular.module("SongVis.services").factory('SocketService', ["AudioPlayer", function(AudioPlayer) {
   var host = location.origin.replace(/^http/, 'ws') + '/sock';
   var ws = new WebSocket(host);
   var socketContainer = {};
@@ -13,7 +13,7 @@ angular.module("SongVis.services").factory('SocketService', function() {
         } else if (data.index > -1) {
           socketContainer.playlistScope.remotePlay(data.index);
         } else if (data.pause) {
-          socketContainer.playlistScope.remotePause();
+          AudioPlayer.pause();
         }
       });
     }
@@ -37,4 +37,4 @@ angular.module("SongVis.services").factory('SocketService', function() {
   };
 
   return socketContainer;
-});
+}]);

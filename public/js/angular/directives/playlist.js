@@ -46,12 +46,7 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "Visual
 
       scope.pause = function() {
         SocketService.pause();
-        scope.remotePause();
       }
-
-      scope.remotePause = function() {
-        AudioPlayer.pause();
-      };
 
       scope.playing = function(index) {
         return currentSong() === AudioPlayer.songs[index] &&
