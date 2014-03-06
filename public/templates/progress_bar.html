@@ -2,7 +2,7 @@
   Elapsed: {{elapsedTime()}}
   <div ng-show="audio.src" class="ilb progress-bar-controls">
     <i ng-click="playPrevious()" class="glyphicon glyphicon-step-backward pointer"></i>
-    <i ng-click="play()" ng-hide="playing()" class="glyphicon glyphicon-play pointer"></i>
+    <i ng-click="play(index())" ng-hide="playing()" class="glyphicon glyphicon-play pointer"></i>
     <i ng-click="pause()" ng-show="playing()" class="glyphicon glyphicon-pause pointer"></i>
     <i ng-click="playNext()" class="glyphicon glyphicon-step-forward pointer"></i>
   </div>

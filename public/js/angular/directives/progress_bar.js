@@ -5,9 +5,13 @@ angular.module("SongVis.directives").directive("progressBar", ["AudioPlayer", fu
     templateUrl: 'templates/progress_bar.html',
     link: function(scope, element, attrs) {
       scope.playing = AudioPlayer.playing;
-      scope.play = AudioPlayer.play;
+      scope.play = AudioPlayer.remotePlay;
       scope.pause = AudioPlayer.pause;
       scope.audio = AudioPlayer.player;
+
+      scope.index = function() {
+        return AudioPlayer.songs.indexOf(AudioPlayer.currentSong());
+      }
 
       scope.playPrevious = function() {
         AudioPlayer.playPrevious();
