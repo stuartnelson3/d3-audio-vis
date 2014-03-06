@@ -42,9 +42,7 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "Visual
       scope.audio.onended = function() {
         scope.current++;
         setCurrentSong(scope.current);
-        if (scope.activeSong) {
-          scope.audio.src = scope.activeSong.url;
-        }
+        scope.audio.src = AudioPlayer.currentSong().url;
       };
 
       scope.remove = function(index) {
@@ -62,7 +60,7 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "Visual
       };
 
       scope.playing = function(index) {
-        var currentSong = AudioPlayer.currentSong() || {};
+        var currentSong = AudioPlayer.currentSong();
         return currentSong === scope.songs[index] &&
           !scope.audio.paused;
       };
@@ -89,7 +87,6 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "Visual
         scope.audio.src = url;
         scope.current = index;
 
-        scope.audio.autoplay = true;
         scope.javascriptNode.onaudioprocess = function() {
           scope.$apply(function() {
             scope.array = new Uint8Array(scope.analyser.frequencyBinCount);
