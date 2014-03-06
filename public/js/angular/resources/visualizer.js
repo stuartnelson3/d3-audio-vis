@@ -10,7 +10,7 @@ angular.module("SongVis.resources").factory("Visualizer", ["$rootScope", "AudioP
     this.audioContext = new AudioContext();
     this.analyser = this.audioContext.createAnalyser();
     this.analyser.smoothingTimeConstant = 0.3;
-    this.analyser.fftSize = 32;
+    this.analyser.fftSize = 128;
 
     this.javascriptNode = this.audioContext.createScriptProcessor(2048, 1, 1);
     this.javascriptNode.connect(this.audioContext.destination);
@@ -19,7 +19,7 @@ angular.module("SongVis.resources").factory("Visualizer", ["$rootScope", "AudioP
 
   var nodes = [];
   var array;
-  for (var i = 0; i < 16; nodes.push(i++)) {}
+  for (var i = 0; i < 128; nodes.push(i++)) {}
 
   // why does this need to be global...
   vis = new visualizer();
