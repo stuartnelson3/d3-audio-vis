@@ -40,8 +40,8 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "Visual
       scope.analyser.connect(scope.context.destination);
 
       scope.remove = function(index) {
-        scope.songs.splice(index, 1);
-        SocketService.remove(scope.songs);
+        AudioPlayer.songs.splice(index, 1);
+        SocketService.remove(AudioPlayer.songs);
       };
 
       scope.pause = function() {
@@ -50,31 +50,34 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "Visual
       }
 
       scope.remotePause = function() {
-        scope.audio.pause();
+        AudioPlayer.pause();
       };
 
       scope.playing = function(index) {
-        var currentSong = AudioPlayer.currentSong();
-        return currentSong === scope.songs[index] &&
-          !scope.audio.paused;
+        return currentSong() === AudioPlayer.songs[index] &&
+          AudioPlayer.playing();
       };
 
       var songUrl = function(index) {
-        return scope.songs[index].url;
+        return AudioPlayer.songs[index].url;
       };
 
       var setCurrentSong = function(index) {
         AudioPlayer.setCurrentSong(scope.songs[index]);
       };
 
+      var currentSong = function() {
+        return AudioPlayer.currentSong();
+      };
+
       scope.remotePlay = function(index) {
-        if (scope.activeSong === scope.songs[index]) {
-          scope.audio.play();
+        if (currentSong() === scope.songs[index]) {
+          AudioPlayer.player.play();
           return;
         }
         setCurrentSong(index);
         var url = songUrl(index);
-        scope.audio.src = url;
+        AudioPlayer.player.src = url;
         scope.current = index;
 
         scope.javascriptNode.onaudioprocess = function() {
