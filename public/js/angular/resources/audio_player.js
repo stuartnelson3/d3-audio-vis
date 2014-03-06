@@ -31,13 +31,13 @@ angular.module("SongVis.resources").factory("AudioPlayer", [function() {
 
   audioPlayer.playNext = function() {
     var i = audioPlayer.songs.indexOf(currentSong)+1;
-    currentSong = audioPlayer.songs[i];
+    currentSong = (audioPlayer.songs[i] || {});
     audioPlayer.player.src = currentSong.url;
   };
 
   audioPlayer.playPrevious = function() {
     var i = audioPlayer.songs.indexOf(currentSong)-1;
-    currentSong = audioPlayer.songs[i];
+    currentSong = (audioPlayer.songs[i] || {});
     audioPlayer.player.src = currentSong.url;
   };
 
