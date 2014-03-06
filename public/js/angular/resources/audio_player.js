@@ -20,6 +20,16 @@ angular.module("SongVis.resources").factory("AudioPlayer", [function() {
     player.play();
   };
 
+  audioPlayer.remotePlay = function(i) {
+    var song = audioPlayer.songs[i];
+    if (currentSong === song) {
+      player.play();
+      return;
+    }
+    audioPlayer.setCurrentSong(song);
+    player.src = song.url;
+  };
+
   audioPlayer.pause = function() {
     player.pause();
   };

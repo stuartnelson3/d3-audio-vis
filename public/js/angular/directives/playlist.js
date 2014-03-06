@@ -14,7 +14,6 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "Visual
         AudioPlayer.songs = newSongs;
       });
 
-      SocketService.playlistScope = scope;
       $document.on('keydown', function(ev) {
         // bail if focused on an input
         if($(ev.target).is(":focus")) return;
@@ -25,7 +24,7 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "Visual
         handle: ".song-handle",
         update: function() {
           $timeout(function() {
-            SocketService.send(scope.songs);
+            SocketService.send(AudioPlayer.songs);
           },0)
         }
       };
@@ -54,28 +53,12 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "Visual
           AudioPlayer.playing();
       };
 
-      var songUrl = function(index) {
-        return AudioPlayer.songs[index].url;
-      };
-
-      var setCurrentSong = function(index) {
-        AudioPlayer.setCurrentSong(AudioPlayer.songs[index]);
-      };
-
       var currentSong = function() {
         return AudioPlayer.currentSong();
       };
 
       scope.remotePlay = function(index) {
-        if (currentSong() === AudioPlayer.songs[index]) {
-          AudioPlayer.player.play();
-          return;
-        }
-        setCurrentSong(index);
-        var url = songUrl(index);
-        AudioPlayer.player.src = url;
-        scope.current = index;
-
+        AudioPlayer.remotePlay(index);
         scope.javascriptNode.onaudioprocess = function() {
           scope.$apply(function() {
             scope.array = new Uint8Array(scope.analyser.frequencyBinCount);
