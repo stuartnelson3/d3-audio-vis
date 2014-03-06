@@ -1,6 +1,6 @@
-angular.module("SongVis.resources").factory("AudioPlayer", [function() {
+angular.module("SongVis.resources").factory("Visualizer", [function() {
 
-  var audioPlayer = function() {
+  var visualizer = function() {
     if (!window.AudioContext) {
       if (!window.webkitAudioContext) {
         alert('no audiocontext found');
@@ -10,7 +10,7 @@ angular.module("SongVis.resources").factory("AudioPlayer", [function() {
     this.audioContext = new AudioContext();
   };
 
-  audioPlayer.prototype.setupAudioNodes = function() {
+  visualizer.prototype.setupAudioNodes = function() {
     this.analyser = this.audioContext.createAnalyser();
     this.analyser.smoothingTimeConstant = 0.3;
     this.analyser.fftSize = 32;
@@ -21,5 +21,5 @@ angular.module("SongVis.resources").factory("AudioPlayer", [function() {
   }
 
 
-  return audioPlayer;
+  return visualizer;
 }]);

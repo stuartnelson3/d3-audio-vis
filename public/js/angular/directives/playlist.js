@@ -1,4 +1,4 @@
-angular.module('SongVis.directives').directive('playlist', ["$document", "AudioPlayer", "SocketService", "$timeout", function($document, AudioPlayer, SocketService, $timeout) {
+angular.module('SongVis.directives').directive('playlist', ["$document", "Visualizer", "SocketService", "$timeout", function($document, Visualizer, SocketService, $timeout) {
   return {
     scope: {
       songs: '=',
@@ -24,7 +24,7 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "AudioP
         }
       };
 
-      var audioPlayer = new AudioPlayer();
+      var audioPlayer = new Visualizer();
       audioPlayer.setupAudioNodes();
       scope.context = audioPlayer.audioContext;
       scope.analyser = audioPlayer.analyser;
