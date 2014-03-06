@@ -61,11 +61,11 @@
     </div>
 
     <div class='unit float-left' ng-show="activeTab('vis')">
-      <circles width="960" height="560" data="data" frequency-data="array" update="update"></circles>
+      <circles width="960" height="560" update="update"></circles>
     </div>
   </div>
 
-  <playlist array="array" class="float-left" ng-show="audioPlayer.songs.length"></playlist>
+  <playlist class="float-left" ng-show="audioPlayer.songs.length"></playlist>
   <progress-bar></progress-bar>
 
 </div>

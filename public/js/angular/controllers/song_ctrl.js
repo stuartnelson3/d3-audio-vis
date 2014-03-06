@@ -14,13 +14,10 @@ angular.module("SongVis.controllers").controller("SongCtrl", ["$scope",
     }
   });
 
-  SocketService.scope = $scope;
   $scope.songs = [];
   $scope.servers = [location.origin];
   $scope.showTab = 'search';
   $scope.audioPlayer = AudioPlayer;
-  $scope.data = [];
-  for (var i = 0; i < 16; $scope.data.push(i++)) {}
 
   $scope.update = function(d3Selection) {
     return function(array) {

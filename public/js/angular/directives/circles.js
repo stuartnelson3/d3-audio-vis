@@ -1,17 +1,16 @@
-angular.module('SongVis.directives').directive('circles', [function() {
+angular.module('SongVis.directives').directive('circles', ["Visualizer", function(Visualizer) {
   return {
     scope: {
-      data: '=',
       height: '@',
       width: '@',
       update: '&',
-      frequencyData: '='
     },
     restrict: 'E',
     link: function(scope, element, attrs) {
+      scope.frequencyData = Visualizer.getData;
       scope.color = d3.scale.category10();
       scope.svg = d3.select(element[0]).append('svg').attr('height', scope.height).attr('width', scope.width);
-      scope.circles = scope.svg.selectAll('circle').data(scope.data);
+      scope.circles = scope.svg.selectAll('circle').data(Visualizer.nodes);
       scope.circles.enter().append('circle')
         .attr('cy', function(d,i) { return (Math.random()*420)+1})
         .attr('cx', 0)
@@ -26,7 +25,9 @@ angular.module('SongVis.directives').directive('circles', [function() {
         .style('fill', function(d,i) { return scope.color(i); })
 
       var updateFn = scope.update();
-      scope.$watch('frequencyData', updateFn(scope.circles));
+      scope.$watch('frequencyData()', function(newData) {
+        updateFn(scope.circles)(newData);
+      });
     }
   };
 }]);

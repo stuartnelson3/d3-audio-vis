@@ -29,16 +29,6 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "Visual
         }
       };
 
-      var visualizer = new Visualizer();
-      visualizer.setupAudioNodes();
-      scope.context = visualizer.audioContext;
-      scope.analyser = visualizer.analyser;
-      scope.javascriptNode = visualizer.javascriptNode;
-
-      var source = scope.context.createMediaElementSource(scope.audio);
-      source.connect(scope.analyser);
-      scope.analyser.connect(scope.context.destination);
-
       scope.remove = function(index) {
         AudioPlayer.songs.splice(index, 1);
         SocketService.remove(AudioPlayer.songs);
@@ -59,12 +49,6 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "Visual
 
       scope.remotePlay = function(index) {
         AudioPlayer.remotePlay(index);
-        scope.javascriptNode.onaudioprocess = function() {
-          scope.$apply(function() {
-            scope.array = new Uint8Array(scope.analyser.frequencyBinCount);
-            scope.analyser.getByteFrequencyData(scope.array);
-          });
-        };
       };
 
       scope.play = function(index) {
