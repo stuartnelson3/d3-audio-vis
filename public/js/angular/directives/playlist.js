@@ -10,6 +10,7 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "Visual
       scope.audioPlayer = AudioPlayer;
       scope.audio = AudioPlayer.player;
       scope.$watch('songs', function(newSongs, oldSongs) {
+        if (!newSongs) return;
         AudioPlayer.songs = newSongs;
       });
 
@@ -58,7 +59,7 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "Visual
       };
 
       var setCurrentSong = function(index) {
-        AudioPlayer.setCurrentSong(scope.songs[index]);
+        AudioPlayer.setCurrentSong(AudioPlayer.songs[index]);
       };
 
       var currentSong = function() {
@@ -66,7 +67,7 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "Visual
       };
 
       scope.remotePlay = function(index) {
-        if (currentSong() === scope.songs[index]) {
+        if (currentSong() === AudioPlayer.songs[index]) {
           AudioPlayer.player.play();
           return;
         }

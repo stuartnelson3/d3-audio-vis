@@ -1,11 +1,12 @@
 angular.module("SongVis.resources").factory("AudioPlayer", [function() {
 
-  audioPlayer = {};
+  var audioPlayer = {};
   var currentSong = {};
 
   audioPlayer.player = new Audio();
   var player = audioPlayer.player;
   audioPlayer.player.autoplay = true;
+  audioPlayer.songs = [];
 
   audioPlayer.setSrc = function(src) {
     player.src = src;

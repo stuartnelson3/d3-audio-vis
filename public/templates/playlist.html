@@ -1,6 +1,6 @@
 <ul class="playlist" ui-sortable="sortableOptions" ng-model="songs">
   <li
-    ng-repeat="song in songs track by $index"
+    ng-repeat="song in audioPlayer.songs track by $index"
     ng-mouseenter="hover=1"
     ng-mouseleave="hover=0"
     ng-class="{playing: playing($index)}"

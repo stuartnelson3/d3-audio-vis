@@ -1,4 +1,13 @@
-angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", "$http", "$document", "SortService", "SocketService", function($scope, $http, $document, SortService, SocketService) {
+angular.module("SongVis.controllers").controller("SongCtrl", ["$scope",
+                                                 "$http", "$document",
+                                                 "SortService",
+                                                 "SocketService",
+                                                 "AudioPlayer",
+                                                 function($scope, $http,
+                                                          $document,
+                                                          SortService,
+                                                          SocketService,
+                                                          AudioPlayer) {
   $document.on('keydown', ".js-search-form", function(ev) {
     if (ev.keyCode === 13) { // Enter keycode
       $scope.searchServers();
@@ -7,9 +16,9 @@ angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", "$http",
 
   SocketService.scope = $scope;
   $scope.songs = [];
-  $scope.selectedSongs = [];
   $scope.servers = [location.origin];
   $scope.showTab = 'search';
+  $scope.audioPlayer = AudioPlayer;
   $scope.data = [];
   for (var i = 0; i < 16; $scope.data.push(i++)) {}
 
@@ -31,8 +40,8 @@ angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", "$http",
   }
 
   $scope.queue = function(song) {
-    $scope.selectedSongs.push(song)
-    SocketService.send($scope.selectedSongs);
+    AudioPlayer.songs.push(song)
+    SocketService.send(AudioPlayer.songs);
   };
 
   $scope.toggleTab = function(tab) {
@@ -47,7 +56,7 @@ angular.module("SongVis.controllers").controller("SongCtrl", ["$scope", "$http",
 
   $scope.variableWidth = function() {
     var css = {}
-    if ($scope.selectedSongs.length) {
+    if (AudioPlayer.songs.length) {
       css = {width: "75%"};
     }
     return css;
