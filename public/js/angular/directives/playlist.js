@@ -15,7 +15,14 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "Visual
 
       SocketService.playlistScope = scope;
       $document.on('keydown', function(ev) {
-        if (ev.keyCode === 32 && !$(ev.target).is(":focus")) { // Space keycode
+        if($(ev.target).is(":focus")) return; // bail if using an input
+        if (ev.keyCode === 39) { // Right arrow keycode
+          AudioPlayer.playNext();
+        }
+        if (ev.keyCode === 37) { // Left arrow keycode
+          AudioPlayer.playPrevious();
+        }
+        if (ev.keyCode === 32) { // Space keycode
           scope.audio.paused ? scope.audio.play() : scope.audio.pause();
         }
       });
