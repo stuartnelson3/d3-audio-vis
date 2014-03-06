@@ -11,7 +11,7 @@ angular.module("SongVis.directives").directive("progressBar", ["AudioPlayer", "S
         AudioPlayer.remotePlay(index);
       };
 
-      scope.pause = AudioPlayer.pause;
+      scope.pause = SocketService.pause;
 
       scope.index = function() {
         return AudioPlayer.songs.indexOf(AudioPlayer.currentSong());
