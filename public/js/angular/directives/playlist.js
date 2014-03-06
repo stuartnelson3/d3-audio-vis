@@ -39,12 +39,6 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "Visual
       source.connect(scope.analyser);
       scope.analyser.connect(scope.context.destination);
 
-      scope.audio.onended = function() {
-        scope.current++;
-        setCurrentSong(scope.current);
-        scope.audio.src = AudioPlayer.currentSong().url;
-      };
-
       scope.remove = function(index) {
         scope.songs.splice(index, 1);
         SocketService.remove(scope.songs);

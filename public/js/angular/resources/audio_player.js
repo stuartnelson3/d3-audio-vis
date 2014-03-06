@@ -1,25 +1,26 @@
 angular.module("SongVis.resources").factory("AudioPlayer", [function() {
 
-  var audioPlayer = {};
+  audioPlayer = {};
   var currentSong = {};
 
   audioPlayer.player = new Audio();
+  var player = audioPlayer.player;
   audioPlayer.player.autoplay = true;
 
   audioPlayer.setSrc = function(src) {
-    audioPlayer.player.src = src;
+    player.src = src;
   };
 
   audioPlayer.playing = function() {
-    return !audioPlayer.player.paused;
+    return !player.paused;
   };
 
   audioPlayer.play = function() {
-    audioPlayer.player.play();
+    player.play();
   };
 
   audioPlayer.pause = function() {
-    audioPlayer.player.pause();
+    player.pause();
   };
 
   audioPlayer.setCurrentSong = function(song) {
@@ -30,11 +31,15 @@ angular.module("SongVis.resources").factory("AudioPlayer", [function() {
     return currentSong;
   };
 
+  player.onended = function() {
+    audioPlayer.playNext();
+  };
+
   function jumpSongs(jump) {
     return function() {
       var i = audioPlayer.songs.indexOf(currentSong)+jump;
       currentSong = (audioPlayer.songs[i] || {});
-      audioPlayer.player.src = currentSong.url;
+      player.src = currentSong.url;
     };
   }
   audioPlayer.playNext = jumpSongs(1);
