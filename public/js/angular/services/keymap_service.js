@@ -10,5 +10,7 @@ angular.module("SongVis.services").factory('KeyMap', function() {
       this.player.paused ? this.player.play() : this.player.pause();
     }
   };
-  return keyMap;
+  return function(keycode) {
+    return keyMap[keycode] || function() {};
+  }
 });

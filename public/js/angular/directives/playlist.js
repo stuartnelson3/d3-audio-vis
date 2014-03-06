@@ -17,7 +17,7 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "Visual
       $document.on('keydown', function(ev) {
         // bail if focused on an input
         if($(ev.target).is(":focus")) return;
-        KeyMap[ev.keyCode].call(AudioPlayer);
+        KeyMap(ev.keyCode).call(AudioPlayer);
       });
 
       scope.sortableOptions = {
