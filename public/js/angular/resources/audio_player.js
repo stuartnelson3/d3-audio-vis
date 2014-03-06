@@ -30,17 +30,15 @@ angular.module("SongVis.resources").factory("AudioPlayer", [function() {
     return currentSong;
   };
 
-  audioPlayer.playNext = function() {
-    var i = audioPlayer.songs.indexOf(currentSong)+1;
-    currentSong = (audioPlayer.songs[i] || {});
-    audioPlayer.player.src = currentSong.url;
-  };
-
-  audioPlayer.playPrevious = function() {
-    var i = audioPlayer.songs.indexOf(currentSong)-1;
-    currentSong = (audioPlayer.songs[i] || {});
-    audioPlayer.player.src = currentSong.url;
-  };
+  function jumpSongs(jump) {
+    return function() {
+      var i = audioPlayer.songs.indexOf(currentSong)+jump;
+      currentSong = (audioPlayer.songs[i] || {});
+      audioPlayer.player.src = currentSong.url;
+    };
+  }
+  audioPlayer.playNext = jumpSongs(1);
+  audioPlayer.playPrevious = jumpSongs(-1);
 
   return audioPlayer;
 }]);
