@@ -24,11 +24,11 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "Visual
         }
       };
 
-      var audioPlayer = new Visualizer();
-      audioPlayer.setupAudioNodes();
-      scope.context = audioPlayer.audioContext;
-      scope.analyser = audioPlayer.analyser;
-      scope.javascriptNode = audioPlayer.javascriptNode;
+      var visualizer = new Visualizer();
+      visualizer.setupAudioNodes();
+      scope.context = visualizer.audioContext;
+      scope.analyser = visualizer.analyser;
+      scope.javascriptNode = visualizer.javascriptNode;
 
       var source = scope.context.createMediaElementSource(scope.audio);
       source.connect(scope.analyser);
