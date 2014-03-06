@@ -9,8 +9,8 @@ angular.module('SongVis.directives').directive('playlist', ["$document", "Visual
     templateUrl: 'templates/playlist.html',
     link: function(scope, element, attrs) {
       SocketService.playlistScope = scope;
-      $document.keydown(function(ev) {
-        if (ev.keyCode === 32) { // Space keycode
+      $document.on('keydown', function(ev) {
+        if (ev.keyCode === 32 && !$(ev.target).is(":focus")) { // Space keycode
           scope.audio.paused ? scope.audio.play() : scope.audio.pause();
         }
       });
