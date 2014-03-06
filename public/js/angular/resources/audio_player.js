@@ -46,15 +46,5 @@ angular.module("SongVis.resources").factory("AudioPlayer", [function() {
     audioPlayer.playNext();
   };
 
-  function jumpSongs(jump) {
-    return function() {
-      var i = audioPlayer.songs.indexOf(currentSong)+jump;
-      currentSong = (audioPlayer.songs[i] || {});
-      player.src = currentSong.url;
-    };
-  }
-  audioPlayer.playNext = jumpSongs(1);
-  audioPlayer.playPrevious = jumpSongs(-1);
-
   return audioPlayer;
 }]);

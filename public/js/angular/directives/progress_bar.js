@@ -18,10 +18,15 @@ angular.module("SongVis.directives").directive("progressBar", ["AudioPlayer", "S
       }
 
       scope.playPrevious = function() {
-        AudioPlayer.playPrevious();
+        var i = scope.index() - 1;
+        if (i < 0) return;
+        SocketService.remotePlay(i);
       };
+
       scope.playNext = function() {
-        AudioPlayer.playNext();
+        var i = scope.index() + 1;
+        if (i >= AudioPlayer.songs.length) return;
+        SocketService.remotePlay(i);
       };
 
       scope.updateProgress = function(ev) {
