@@ -53,6 +53,23 @@ angular.module("SongVis.controllers").controller("SongCtrl", ["$scope",
 
   $scope.searchServers = function() {
     $scope.songs = [];
+    var soundcloudUrl = "http://api.soundcloud.com/tracks"
+    var scQuery = "?q=" + $scope.searchText + "&client_id=1182e08b0415d770cfb0219e80c839e8&format=json&_status_code_map[302]=200"
+    $http.get(soundcloudUrl, {
+      params: {
+        q: $scope.searchText,
+        client_id: "1182e08b0415d770cfb0219e80c839e8",
+        format: "json",
+        "_status_code_map[302]": 200}}).then(function(payload) {
+          var songs = payload.data
+          songs.forEach(function(song) {
+            song.name = song.title
+            song.artist = song.user.username
+            song.artist_avatar = song.user.avatar_url
+            song.url = song.stream_url + "?client_id=1182e08b0415d770cfb0219e80c839e8"
+          })
+          $scope.songs.push.apply($scope.songs, songs)
+        })
     $scope.servers.forEach(function(server) {
       $http.get(server + "/search", {params: {search: $scope.searchText}})
       .then(processServerResponse)
@@ -64,5 +81,5 @@ angular.module("SongVis.controllers").controller("SongCtrl", ["$scope",
     $scope.songs.push.apply($scope.songs, songs);
   }
 
-  $scope.addServer('localhost:4000')
+  $scope.addServer('stuart.local:4000')
 }]);
