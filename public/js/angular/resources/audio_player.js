@@ -47,7 +47,13 @@ angular.module("SongVis.resources").factory("AudioPlayer", [function() {
   };
 
   player.onended = function() {
-    audioPlayer.playNext();
+    // add check to see if out of bounds of songs array
+    // this is the third place this logic lives
+    // centralize it in one place.
+    var i = audioPlayer.songIndex() + 1;
+    if (i < audioPlayer.songs.length) {
+      audioPlayer.remotePlay(i);
+    }
   };
 
   return audioPlayer;
