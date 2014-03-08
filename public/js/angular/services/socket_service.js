@@ -11,7 +11,7 @@ angular.module("SongVis.services").factory('SocketService', ["$rootScope", "Audi
       } else if (data.index > -1) {
         AudioPlayer.remotePlay(data.index);
       } else if (data.pause) {
-        AudioPlayer.pause();
+        AudioPlayer.playing() ? AudioPlayer.pause() : AudioPlayer.play();
       }
     });
   };
@@ -23,6 +23,20 @@ angular.module("SongVis.services").factory('SocketService', ["$rootScope", "Audi
   socketContainer.remove = function(songs) {
     this.send(songs);
     this.pause();
+  };
+
+  socketContainer.playNext = function() {
+    var i = AudioPlayer.songIndex() + 1;
+    if (i < AudioPlayer.songs.length) {
+      this.remotePlay(i);
+    }
+  };
+
+  socketContainer.playPrevious = function() {
+    var i = AudioPlayer.songIndex() - 1;
+    if (i > -1) {
+      this.remotePlay(i);
+    }
   };
 
   socketContainer.remotePlay = function(index) {

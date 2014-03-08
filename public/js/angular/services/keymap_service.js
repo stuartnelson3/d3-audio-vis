@@ -1,20 +1,16 @@
-angular.module("SongVis.services").factory('KeyMap', function() {
-  keyMap = {
-    39: function(index, songs) { // Right arrow keycode
-      var i = index + 1;
-      if (i >= songs.length) return;
-      this.remotePlay(i);
+angular.module("SongVis.services").factory('KeyMap', ["SocketService", function(SocketService) {
+  var keyMap = {
+    39: function() { // Right arrow keycode
+      SocketService.playNext();
     },
-    37: function(index) { // Left arrow keycode
-      var i = index - 1;
-      if (i < 0) return;
-      this.remotePlay(i);
+    37: function() { // Left arrow keycode
+      SocketService.playPrevious();
     },
     32: function() { // Space keycode
-      this.pause();
+      SocketService.pause();
     }
   };
   return function(keycode) {
     return keyMap[keycode] || function() {};
   }
-});
+}]);
