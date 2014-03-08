@@ -3,17 +3,24 @@ angular.module("SongVis.controllers").controller("SongCtrl", ["$scope",
                                                  "SortService",
                                                  "SocketService",
                                                  "AudioPlayer",
+                                                 "Soundcloud",
                                                  function($scope, $http,
                                                           $document,
                                                           SortService,
                                                           SocketService,
-                                                          AudioPlayer) {
+                                                          AudioPlayer,
+                                                          Soundcloud) {
   $document.on('keydown', ".js-search-form", function(ev) {
     if (ev.keyCode === 13) { // Enter keycode
       $scope.searchServers();
     }
   });
 
+  var SC = new Soundcloud({
+    client_id: "1182e08b0415d770cfb0219e80c839e8",
+    format: "json",
+    "_status_code_map[302]": 200
+  })
   $scope.songs = [];
   $scope.servers = [location.origin];
   $scope.showTab = 'search';
@@ -53,23 +60,8 @@ angular.module("SongVis.controllers").controller("SongCtrl", ["$scope",
 
   $scope.searchServers = function() {
     $scope.songs = [];
-    var soundcloudUrl = "http://api.soundcloud.com/tracks"
-    var scQuery = "?q=" + $scope.searchText + "&client_id=1182e08b0415d770cfb0219e80c839e8&format=json&_status_code_map[302]=200"
-    $http.get(soundcloudUrl, {
-      params: {
-        q: $scope.searchText,
-        client_id: "1182e08b0415d770cfb0219e80c839e8",
-        format: "json",
-        "_status_code_map[302]": 200}}).then(function(payload) {
-          var songs = payload.data
-          songs.forEach(function(song) {
-            song.name = song.title
-            song.artist = song.user.username
-            song.artist_avatar = song.user.avatar_url
-            song.url = song.stream_url + "?client_id=1182e08b0415d770cfb0219e80c839e8"
-          })
-          $scope.songs.push.apply($scope.songs, songs)
-        })
+    SC.search($scope.searchText).appendSongs($scope.songs);
+
     $scope.servers.forEach(function(server) {
       $http.get(server + "/search", {params: {search: $scope.searchText}})
       .then(processServerResponse)
