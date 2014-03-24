@@ -22,7 +22,7 @@ angular.module("SongVis.controllers").controller("SongCtrl", ["$scope",
     "_status_code_map[302]": 200
   })
   $scope.songs = [];
-  $scope.servers = [location.origin];
+  $scope.servers = [];
   $scope.showTab = 'search';
   $scope.audioPlayer = AudioPlayer;
 
@@ -72,6 +72,4 @@ angular.module("SongVis.controllers").controller("SongCtrl", ["$scope",
     var songs = payload.data;
     $scope.songs.push.apply($scope.songs, songs);
   }
-
-  $scope.addServer('stuart.local:4000')
 }]);
