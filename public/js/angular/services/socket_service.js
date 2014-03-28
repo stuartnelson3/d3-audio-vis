@@ -1,4 +1,4 @@
-angular.module("SongVis.services").factory('SocketService', ["$rootScope", "$http", "$timeout", "AudioPlayer", function($rootScope, $http, $timeout, AudioPlayer) {
+angular.module("SongVis.services").factory('SocketService', ["$rootScope", "$http", "$interval", "AudioPlayer", function($rootScope, $http, $interval, AudioPlayer) {
   var host = location.origin.replace(/^http/, 'ws') + '/sock';
   var ws = new WebSocket(host);
 
@@ -33,7 +33,7 @@ angular.module("SongVis.services").factory('SocketService', ["$rootScope", "$htt
   };
 
   // ping every 10 seconds to keep connection alive
-  $timeout(function() {
+  $interval(function() {
     ws.send("{}");
   }, 1000*10);
 
