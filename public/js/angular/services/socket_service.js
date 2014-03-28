@@ -1,25 +1,25 @@
-angular.module("SongVis.services").factory('SocketService', ["$rootScope", "$http", "AudioPlayer", function($rootScope, $http, AudioPlayer) {
-  // var host = location.origin.replace(/^http/, 'ws') + '/sock';
-  // var ws = new WebSocket(host);
+angular.module("SongVis.services").factory('SocketService', ["$rootScope", "$http", "$timeout", "AudioPlayer", function($rootScope, $http, $timeout, AudioPlayer) {
+  var host = location.origin.replace(/^http/, 'ws') + '/sock';
+  var ws = new WebSocket(host);
 
-  var ws = {
-    send: function(data) {
-      $http.post("/update_stream", data);
-    }
-  };
-  var es = new EventSource(location.origin + "/stream");
+  // var ws = {
+  //   send: function(data) {
+  //     $http.post("/update_stream", data);
+  //   }
+  // };
+  // var es = new EventSource(location.origin + "/stream");
   var socketContainer = {};
 
-  es.onopen = function() {
-    $http.get("/current-playlist").then(function(data) {
-      if (!data.data.songs || AudioPlayer.songs.length) {
-        return;
-      }
-      AudioPlayer.songs = data.data.songs;
-    });
-  };
+  // es.onopen = function() {
+  //   $http.get("/current-playlist").then(function(data) {
+  //     if (!data.data.songs || AudioPlayer.songs.length) {
+  //       return;
+  //     }
+  //     AudioPlayer.songs = data.data.songs;
+  //   });
+  // };
 
-  es.onmessage = function(e) {
+  ws.onmessage = function(e) {
     $rootScope.$apply(function() {
       var data = JSON.parse(e.data||JSON.stringify({songs:[]}));
       if (data.songs) {
@@ -31,6 +31,11 @@ angular.module("SongVis.services").factory('SocketService', ["$rootScope", "$htt
       }
     });
   };
+
+  // ping every 10 seconds to keep connection alive
+  $timeout(function() {
+    ws.send("{}");
+  }, 1000*10);
 
   socketContainer.send = function(songs) {
     ws.send(JSON.stringify({songs: angular.copy(songs)}));
