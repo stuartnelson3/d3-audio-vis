@@ -1,9 +1,25 @@
-angular.module("SongVis.services").factory('SocketService', ["$rootScope", "AudioPlayer", function($rootScope, AudioPlayer) {
-  var host = location.origin.replace(/^http/, 'ws') + '/sock';
-  var ws = new WebSocket(host);
+angular.module("SongVis.services").factory('SocketService', ["$rootScope", "$http", "AudioPlayer", function($rootScope, $http, AudioPlayer) {
+  // var host = location.origin.replace(/^http/, 'ws') + '/sock';
+  // var ws = new WebSocket(host);
+
+  var ws = {
+    send: function(data) {
+      $http.post("/update_stream", data);
+    }
+  };
+  var es = new EventSource(location.origin + "/stream");
   var socketContainer = {};
 
-  ws.onmessage = function(e) {
+  es.onopen = function() {
+    $http.get("/current-playlist").then(function(data) {
+      if (!data.data.songs) {
+        return;
+      }
+      AudioPlayer.songs = data.data.songs;
+    });
+  };
+
+  es.onmessage = function(e) {
     $rootScope.$apply(function() {
       var data = JSON.parse(e.data||JSON.stringify({songs:[]}));
       if (data.songs) {
