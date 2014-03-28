@@ -1,4 +1,4 @@
-angular.module("SongVis.services").factory('SocketService', ["$rootScope", "AudioPlayer", function($rootScope, AudioPlayer) {
+angular.module("SongVis.services").factory('SocketService', ["$rootScope", "$timeout", "AudioPlayer", function($rootScope, $timeout, AudioPlayer) {
   var host = location.origin.replace(/^http/, 'ws') + '/sock';
   var ws = new WebSocket(host);
   var socketContainer = {};
@@ -15,6 +15,11 @@ angular.module("SongVis.services").factory('SocketService', ["$rootScope", "Audi
       }
     });
   };
+
+  // ping every 10 seconds to keep connection alive
+  $timeout(function() {
+    ws.send("{}");
+  }, 1000*10);
 
   socketContainer.send = function(songs) {
     ws.send(JSON.stringify({songs: angular.copy(songs)}));
