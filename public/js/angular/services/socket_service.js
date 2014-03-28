@@ -12,7 +12,7 @@ angular.module("SongVis.services").factory('SocketService', ["$rootScope", "$htt
 
   es.onopen = function() {
     $http.get("/current-playlist").then(function(data) {
-      if (!data.data.songs) {
+      if (!data.data.songs || AudioPlayer.songs.length) {
         return;
       }
       AudioPlayer.songs = data.data.songs;
