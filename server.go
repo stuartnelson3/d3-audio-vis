@@ -2,10 +2,6 @@ package main
 
 import (
 	"fmt"
-	eventsource "github.com/antage/eventsource"
-	"github.com/codegangsta/martini"
-	"github.com/codegangsta/martini-contrib/render"
-	"github.com/gorilla/websocket"
 	"io/ioutil"
 	"log"
 	"net"
@@ -14,6 +10,11 @@ import (
 	"regexp"
 	"strconv"
 	"sync"
+
+	"github.com/antage/eventsource"
+	"github.com/codegangsta/martini"
+	"github.com/codegangsta/martini-contrib/render"
+	"github.com/gorilla/websocket"
 )
 
 func main() {
