@@ -1,5 +1,5 @@
 angular.module("SongVis.resources").factory('Soundcloud', ["$http", function($http) {
-  var soundcloudUrl = "http://api.soundcloud.com/tracks";
+  var soundcloudUrl = location.protocol + "//api.soundcloud.com/tracks";
   var sc = function(params) {
     if (!params.client_id) {
       throw("Must include client_id!");
